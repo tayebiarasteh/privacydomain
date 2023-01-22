@@ -2,3 +2,5 @@
 *.pyc
 *.iml
 /.idea/.gitignore
+/pretraining_resnet9_512.pth
+/pretraining_resnet9_512_4labels.pth

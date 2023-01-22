@@ -79,7 +79,8 @@ class UKA_data_loader(Dataset):
             self.file_base_dir = os.path.join(self.file_base_dir, 'UKA_preprocessed')
 
         self.file_path_list = list(self.subset_df['image_id'])
-        self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'healthy'] # 4 labels
+        # self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'healthy'] # 4 labels
+        self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'atelectasis', 'healthy'] # 5 labels
 
 
 
@@ -242,7 +243,8 @@ class padchest_data_loader(Dataset):
         self.subset_df = self.subset_df.append(APhorizview)
         self.file_path_list = list(self.subset_df['ImageID'])
 
-        self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'no_finding']
+        # self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'no_finding']
+        self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'atelectasis', 'no_finding']
 
 
     def __len__(self):
@@ -338,7 +340,8 @@ class mimic_data_loader(Dataset):
         self.subset_df = PAview.append(APview)
         self.file_path_list = list(self.subset_df['jpg_rel_path'])
 
-        self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'no_finding'] # pretraining
+        # self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'no_finding']
+        self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'atelectasis', 'no_finding']
 
 
 
@@ -429,9 +432,7 @@ class chexpert_data_loader(Dataset):
         self.augment = augment
         self.size224 = size224
         self.file_base_dir = self.params['file_path']
-        # self.org_df = pd.read_csv(os.path.join(self.file_base_dir, "CheXpert-v1.0", "master_list.csv"), sep=',')
         self.org_df = pd.read_csv(os.path.join(self.file_base_dir, "CheXpert-v1.0", "nothree_master_list_20percenttest.csv"), sep=',')
-        # self.org_df = pd.read_csv(os.path.join(self.file_base_dir, "CheXpert-v1.0", "5000_nothree_master_list_20percenttest.csv"), sep=',')
 
         if mode == 'train':
             self.subset_df = self.org_df[self.org_df['split'] == 'train']
@@ -443,7 +444,8 @@ class chexpert_data_loader(Dataset):
         self.subset_df = self.subset_df[self.subset_df['view'] == 'Frontal']
         self.file_path_list = list(self.subset_df['jpg_rel_path'])
 
-        self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'no_finding']
+        # self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'no_finding']
+        self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'atelectasis', 'no_finding']
 
 
 
@@ -551,7 +553,8 @@ class cxr14_data_loader(Dataset):
 
         self.file_path_list = list(self.subset_df['img_rel_path'])
 
-        self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'no_finding']
+        # self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'no_finding']
+        self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'atelectasis', 'no_finding']
 
 
 
@@ -652,7 +655,8 @@ class vindr_data_loader(Dataset):
 
         self.file_path_list = list(self.subset_df['image_id'])
 
-        self.chosen_labels = ['Cardiomegaly', 'Pleural effusion', 'Pneumonia', 'No finding']
+        # self.chosen_labels = ['Cardiomegaly', 'Pleural effusion', 'Pneumonia', 'No finding']
+        self.chosen_labels = ['Cardiomegaly', 'Pleural effusion', 'Pneumonia', 'Atelectasis', 'No finding']
 
 
 

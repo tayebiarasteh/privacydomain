@@ -212,28 +212,6 @@ class Training:
         self.epoch = checkpoint['epoch']
         self.best_loss = checkpoint['best_loss']
 
-        self.model, self.optimiser, train_loader = privacy_engine.make_private_with_epsilon(
-            module=self.model,
-            optimizer=self.optimiser,
-            data_loader=train_loader,
-            epochs=self.params['Network']['num_epochs'],
-            target_epsilon=self.params['DP']['epsilon'],
-            target_delta=float(self.params['DP']['delta']),
-            max_grad_norm=self.params['DP']['max_grad_norm'])
-
-        self.state_dict_list = []
-        for name in self.model.state_dict():
-            self.state_dict_list.append(name)
-
-        temp_dict = {}
-        for weightbias in self.state_dict_list:
-            temp_weight_list = []
-            temp_weight_list.append(self.model.state_dict()[weightbias])
-            temp_dict[weightbias] = temp_weight_list
-
-        self.model.load_state_dict(temp_dict)
-        self.privacy_engine.load_checkpoint(module=self.model, module_load_dict_kwargs=temp_dict)
-
         self.writer = SummaryWriter(log_dir=os.path.join(os.path.join(
             self.params['target_dir'], self.params['tb_logs_path'])), purge_step=self.epoch + 1)
 
@@ -599,13 +577,13 @@ class Training:
 
             print('\nIndividual accuracy:')
             for idx, pathology in enumerate(self.label_names):
-                print(f'\t{pathology}: {valid_accuracy[idx] * 100:.2f}% ; thresh: {optimal_thresholds[idx]:.4f}')
+                print(f'\t{pathology}: {valid_accuracy[idx] * 100:.2f}% ; threshold: {optimal_thresholds[idx]:.4f}')
 
-            print('\nIndividual sensitivity scores:')
+            print('\nIndividual sensitivity:')
             for idx, pathology in enumerate(self.label_names):
                 print(f'\t{pathology}: {valid_sensitivity[idx] * 100:.2f}%')
 
-            print('\nIndividual specificity scores:')
+            print('\nIndividual specificity:')
             for idx, pathology in enumerate(self.label_names):
                 print(f'\t{pathology}: {valid_specificity[idx] * 100:.2f}%')
 
@@ -616,7 +594,7 @@ class Training:
                   f'\n\n\tTrain loss: {train_loss:.4f}, ε = {epsilon:.2f} | δ = {delta} | ' \
                    f'Val. loss: {valid_loss:.4f} | avg AUROC: {valid_AUC.mean() * 100:.2f}% | avg accuracy: {valid_accuracy.mean() * 100:.2f}% ' \
                    f' | avg specificity: {valid_specificity.mean() * 100:.2f}%' \
-                   f' | avg recall (sensitivity): {valid_sensitivity.mean() * 100:.2f}% | avg F1: {valid_F1.mean() * 100:.2f}% | avg precision: {valid_precision.mean() * 100:.2f}%\n\n'
+                   f' | avg recall (sensitivity): {valid_sensitivity.mean() * 100:.2f}% | avg precision: {valid_precision.mean() * 100:.2f}% | avg F1: {valid_F1.mean() * 100:.2f}%\n\n'
         else:
             msg = f'----------------------------------------------------------------------------------------\n' \
                    f'epoch: {self.epoch} | epoch time: {iteration_hours}h {iteration_mins}m {iteration_secs:.2f}s' \
@@ -645,19 +623,19 @@ class Training:
                 with open(os.path.join(self.params['target_dir'], self.params['stat_log_path']) + '/Stats', 'a') as f:
                     f.write(msg)
 
-            msg = f'\n\nIndividual sensitivity scores:\n'
+            msg = f'\n\nIndividual sensitivity:\n'
             with open(os.path.join(self.params['target_dir'], self.params['stat_log_path']) + '/Stats', 'a') as f:
                 f.write(msg)
             for idx, pathology in enumerate(self.label_names):
-                msg = f'{pathology}: {valid_sensitivity[idx] * 100:.2f}%'
+                msg = f'{pathology}: {valid_sensitivity[idx] * 100:.2f}% | '
                 with open(os.path.join(self.params['target_dir'], self.params['stat_log_path']) + '/Stats', 'a') as f:
                     f.write(msg)
 
-            msg = f'\n\nIndividual specificity scores:\n'
+            msg = f'\n\nIndividual specificity:\n'
             with open(os.path.join(self.params['target_dir'], self.params['stat_log_path']) + '/Stats', 'a') as f:
                 f.write(msg)
             for idx, pathology in enumerate(self.label_names):
-                msg = f'{pathology}: {valid_specificity[idx] * 100:.2f}%'
+                msg = f'{pathology}: {valid_specificity[idx] * 100:.2f}% | '
                 with open(os.path.join(self.params['target_dir'], self.params['stat_log_path']) + '/Stats', 'a') as f:
                     f.write(msg)
 
