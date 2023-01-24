@@ -126,7 +126,7 @@ class Training:
         self.model = model.to(self.device)
         # self.model = self.model.half() # float16
 
-        if weight:
+        if not weight == None:
             self.loss_weight = weight.to(self.device)
             self.loss_function = loss_function(pos_weight=self.loss_weight)
         else:
@@ -166,9 +166,12 @@ class Training:
         self.model_info = checkpoint['model_info']
         self.setup_cuda()
         self.model = model.to(self.device)
-        self.loss_weight = weight
-        self.loss_weight = self.loss_weight.to(self.device)
-        self.loss_function = loss_function(weight=self.loss_weight)
+        if not weight == None:
+            self.loss_weight = weight.to(self.device)
+            self.loss_function = loss_function(pos_weight=self.loss_weight)
+        else:
+            self.loss_function = loss_function()
+
         self.optimiser = optimiser
         self.label_names = label_names
 
@@ -408,15 +411,15 @@ class Training:
 
             for idx in range(len(train_loader)):
                 communication_start_time = time.time()
-                model = copy.deepcopy(self.model)
+                model_local = copy.deepcopy(self.model)
                 total_overhead_time += (time.time() - communication_start_time)
                 epoch_overhead_time += (time.time() - communication_start_time)
-                optimizer_model = torch.optim.Adam(model.parameters(), lr=float(self.params['Network']['lr']),
+                optimizer_model = torch.optim.Adam(model_local.parameters(), lr=float(self.params['Network']['lr']),
                                                    weight_decay=float(self.params['Network']['weight_decay']),
                                                    amsgrad=self.params['Network']['amsgrad'])
                 loss_function_model = torch.nn.BCEWithLogitsLoss(pos_weight=loss_weight_loader[idx].to(self.device))
 
-                new_model_client, loss_client, overhead = self.train_epoch_federated(train_loader[idx], optimizer_model, model, loss_function_model)
+                new_model_client, loss_client, overhead = self.train_epoch_federated(train_loader[idx], optimizer_model, model_local, loss_function_model)
                 total_datacopy_time += overhead
                 epoch_datacopy_time += overhead
                 new_model_client_list.append(new_model_client)
@@ -488,8 +491,7 @@ class Training:
                 optimal_threshold = []
 
                 for idx in range(len(valid_loader)):
-                    epoch_loss, average_f1_score, average_AUROC, average_accuracy, average_specificity, average_sensitivity, average_precision, average_optimal_threshold = self.valid_epoch(
-                        valid_loader[idx])
+                    epoch_loss, average_f1_score, average_AUROC, average_accuracy, average_specificity, average_sensitivity, average_precision, average_optimal_threshold = self.valid_epoch(valid_loader[idx])
                     valid_loss.append(epoch_loss)
                     valid_F1.append(average_f1_score)
                     valid_AUC.append(average_AUROC)
@@ -513,13 +515,13 @@ class Training:
                                     valid_specificity=valid_specificity, valid_sensitivity=valid_sensitivity, valid_precision=valid_precision, optimal_thresholds=optimal_threshold)
 
 
-    def train_epoch_federated(self, train_loader, optimizer, model, loss_function_model):
+    def train_epoch_federated(self, train_loader, optimizer, model_local, loss_function_model):
         """Training epoch
         """
         batch_loss = 0
         epoch_datacopy = 0
 
-        model.train()
+        model_local.train()
         for batchIdx, (image, label) in enumerate(train_loader):
 
             communication_start_time = time.time()
@@ -530,7 +532,7 @@ class Training:
             optimizer.zero_grad()
 
             with torch.set_grad_enabled(True):
-                output = self.model(image)
+                output = model_local(image)
                 loss_client = loss_function_model(output, label.float())  # for multilabel
 
                 loss_client.backward()
@@ -539,7 +541,7 @@ class Training:
 
         avg_loss = batch_loss / len(train_loader)
 
-        return model, avg_loss.item(), epoch_datacopy
+        return model_local, avg_loss.item(), epoch_datacopy
 
 
 
@@ -981,3 +983,4 @@ class Training:
             # self.writer.add_scalar('Valid_avg_specificity', valid_specificity.mean(), self.epoch)
             # self.writer.add_scalar('Valid_avg_precision', valid_precision.mean(), self.epoch)
             # self.writer.add_scalar('Valid_avg_recall_sensitivity', valid_sensitivity.mean(), self.epoch)
+
