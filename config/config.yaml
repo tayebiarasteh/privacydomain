@@ -1,9 +1,10 @@
 Network:
-  physical_batch_size: 64
+  physical_batch_size: 16
 #  physical_batch_size: 5
   lr: 2e-4
 #  lr: 1e-3
 #  weight_decay: 5e-4
+  amsgrad: False
   weight_decay: 0
 #  num_epochs: 150
   num_epochs: 80
@@ -21,12 +22,14 @@ target_dir: /home/soroosh/Documents/Repositories_target_files/privacydomain/
 display_stats_freq: 1 # valid freq is equal to this
 
 DP:
-  epsilon: 1
-#  epsilon: 5
-#  epsilon: 7
+#  epsilon: 3
+  epsilon: 4
+#  epsilon: 6
+#  epsilon: 8
 #  epsilon: 10
-  delta: 1e-6  # [for full UKA] at least inverse of the training dataset length, or lower
-#  delta: 0.001  # [for full UKA] at least inverse of the training dataset length, or lower
+#  delta: 1e-6  # [for full UKA]
+#  delta: 7e-6  # [for full chexpert]
+  delta: 1e-5  # [for full padchest & CXR14]
   max_grad_norm: 1.5 # this has a direct relationship with controlling the sensitivity
-#  noise_multiplier: 0.2 # usually between [0.1 , 2]
-  logical_batch_size: 32 # for physical of 32
+#  noise_multiplier: 0.2 # usually between [0.1, 2]
+  logical_batch_size: 128 # for physical of 64

@@ -47,8 +47,8 @@ class UKA_data_loader(Dataset):
         self.augment = augment
         self.file_base_dir = self.params['file_path']
         self.file_base_dir = os.path.join(self.file_base_dir, 'UKA/chest_radiograph')
-        self.org_df = pd.read_csv(os.path.join(self.file_base_dir, "labels/original_novalid_UKA_master_list.csv"), sep=',') # 150,188 train / 39,021 test images
-        # self.org_df = pd.read_csv(os.path.join(self.file_base_dir, "labels/temporiginal_novalid_UKA_master_list.csv"), sep=',') # 150,188 train / 39,021 test images
+        # self.org_df = pd.read_csv(os.path.join(self.file_base_dir, "labels/original_novalid_UKA_master_list.csv"), sep=',') # 150,188 train / 39,021 test images
+        self.org_df = pd.read_csv(os.path.join(self.file_base_dir, "labels/temporiginal_novalid_UKA_master_list.csv"), sep=',') # 150,188 train / 39,021 test images
 
         if mode == 'train':
             self.subset_df = self.org_df[self.org_df['split'] == 'train']
@@ -553,8 +553,8 @@ class cxr14_data_loader(Dataset):
 
         self.file_path_list = list(self.subset_df['img_rel_path'])
 
-        # self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'no_finding']
-        self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'atelectasis', 'no_finding']
+        # self.chosen_labels = ['cardiomegaly', 'effusion', 'pneumonia', 'no_finding']
+        self.chosen_labels = ['cardiomegaly', 'effusion', 'pneumonia', 'atelectasis', 'no_finding']
 
 
 

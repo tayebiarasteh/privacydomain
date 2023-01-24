@@ -100,7 +100,7 @@ def main_train_central(global_config_path="privacydomain/config/config.yaml", va
 
 
 def main_train_DP(global_config_path="privacydomain/config/config.yaml", valid=False,
-                  resume=False, augment=False, experiment_name='name', dataset_name='vindr', pretrained=False, resnet_num=9, mish=False):
+                  resume=False, augment=False, experiment_name='name', dataset_name='vindr', pretrained=False, resnet_num=9, mish=True):
     """Main function for training + validation using DPSGD
 
         Parameters
@@ -180,6 +180,85 @@ def main_train_DP(global_config_path="privacydomain/config/config.yaml", valid=F
     else:
         trainer.setup_model(model=model, optimiser=optimizer, loss_function=loss_function, weight=weight, privacy_engine=privacy_engine)
     trainer.train_epoch_DP(train_loader=train_loader, valid_loader=valid_loader)
+
+
+
+def main_train_federated(global_config_path="privacydomain/config/config.yaml",
+                  resume=False, augment=False, experiment_name='name', dataset_names_list=['vindr', 'vindr'], aggregationweight=[1, 1, 1], pretrained=False, resnet_num=9, mish=True):
+    """Main function for training + validation centrally
+
+        Parameters
+        ----------
+        global_config_path: str
+            always global_config_path="privacydomain/config/config.yaml"
+
+        resume: bool
+            if we are resuming training on a model
+
+        augment: bool
+            if we want to have data augmentation during training
+
+        experiment_name: str
+            name of the experiment, in case of resuming training.
+            name of new experiment, in case of new training.
+    """
+    if resume == True:
+        params = open_experiment(experiment_name, global_config_path)
+    else:
+        params = create_experiment(experiment_name, global_config_path)
+    cfg_path = params["cfg_path"]
+
+    train_loader = []
+    valid_loader = []
+    weight_loader = []
+
+    for dataset_name in dataset_names_list:
+        if dataset_name == 'vindr':
+            train_dataset_model = vindr_data_loader(cfg_path=cfg_path, mode='train', augment=augment)
+            valid_dataset_model = vindr_data_loader(cfg_path=cfg_path, mode='test', augment=False)
+        elif dataset_name == 'chexpert':
+            train_dataset_model = chexpert_data_loader(cfg_path=cfg_path, mode='train', augment=augment)
+            valid_dataset_model = chexpert_data_loader(cfg_path=cfg_path, mode='test', augment=False)
+        elif dataset_name == 'mimic':
+            train_dataset_model = mimic_data_loader(cfg_path=cfg_path, mode='train', augment=augment)
+            valid_dataset_model = mimic_data_loader(cfg_path=cfg_path, mode='test', augment=False)
+        elif dataset_name == 'UKA':
+            train_dataset_model = UKA_data_loader(cfg_path=cfg_path, mode='train', augment=augment)
+            valid_dataset_model = UKA_data_loader(cfg_path=cfg_path, mode='test', augment=False)
+        elif dataset_name == 'cxr14':
+            train_dataset_model = cxr14_data_loader(cfg_path=cfg_path, mode='train', augment=augment)
+            valid_dataset_model = cxr14_data_loader(cfg_path=cfg_path, mode='test', augment=False)
+        elif dataset_name == 'padchest':
+            train_dataset_model = padchest_data_loader(cfg_path=cfg_path, mode='train', augment=augment)
+            valid_dataset_model = padchest_data_loader(cfg_path=cfg_path, mode='test', augment=False)
+
+        weight_model = train_dataset_model.pos_weight()
+        label_names = train_dataset_model.chosen_labels
+
+        train_loader_model = torch.utils.data.DataLoader(dataset=train_dataset_model,
+                                                         batch_size=params['Network']['physical_batch_size'],
+                                                         pin_memory=True, drop_last=False, shuffle=True, num_workers=10)
+        train_loader.append(train_loader_model)
+        weight_loader.append(weight_model)
+        valid_loader_model = torch.utils.data.DataLoader(dataset=valid_dataset_model,
+                                                         batch_size=params['Network']['physical_batch_size'],
+                                                         pin_memory=True, drop_last=False, shuffle=False, num_workers=4)
+        valid_loader.append(valid_loader_model)
+
+    model = load_pretrained_resnet(num_classes=len(weight_loader[0]), resnet_num=resnet_num, pretrained=pretrained, mish=mish)
+
+    trainer = Training(cfg_path, resume=resume, label_names=label_names)
+
+    loss_function = BCEWithLogitsLoss
+    optimizer = torch.optim.NAdam(model.parameters(), lr=float(params['Network']['lr']),
+                                 weight_decay=float(params['Network']['weight_decay']))
+
+    weight = None
+    if resume == True:
+        trainer.load_checkpoint(model=model, optimiser=optimizer, loss_function=loss_function, weight=weight, label_names=label_names)
+    else:
+        trainer.setup_model(model=model, optimiser=optimizer, loss_function=loss_function, weight=weight)
+    trainer.training_setup_federated(train_loader=train_loader, valid_loader=valid_loader, loss_weight_loader=weight_loader, aggregationweight=aggregationweight)
 
 
 
@@ -640,11 +719,11 @@ def load_pretrained_resnet(num_classes=2, resnet_num=34, pretrained=False, mish=
 
 
 if __name__ == '__main__':
-    delete_experiment(experiment_name='tttttt', global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml")
+    delete_experiment(experiment_name='hitemp', global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml")
     # main_train_central(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
     #               valid=True, resume=False, augment=True, experiment_name='temp', dataset_name='vindr', pretrained=False, resnet_num=9)
-    main_train_DP(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
-                  valid=True, augment=False, resume=False, experiment_name='tttttt', dataset_name='vindr', pretrained=False, resnet_num=9, mish=True)
+    # main_train_DP(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
+    #               valid=True, augment=False, resume=False, experiment_name='tttttt', dataset_name='vindr', pretrained=False, resnet_num=9, mish=True)
     # main_test_DP_2D(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml", experiment_name='tttttt',
     #                 resnet_num=9, mish=True, experiment_epoch_num=3, dataset_name='vindr')
 
@@ -654,3 +733,6 @@ if __name__ == '__main__':
     # main_test_2D_pvalue_out_of_bootstrap(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
     #                                      experiment_name1='tttttt', experiment_name2='ttt', experiment1_epoch_num=3,
     #                                      experiment2_epoch_num=1, dataset_name='vindr', resnet_num=9, mish=True)
+    main_train_federated(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
+                         resume=False, augment=True, experiment_name='hitemp', dataset_names_list=['vindr', 'vindr'],
+                         aggregationweight=[1, 1], pretrained=False, resnet_num=9, mish=True)
