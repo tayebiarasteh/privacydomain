@@ -240,13 +240,23 @@ def main_train_federated(global_config_path="privacydomain/config/config.yaml",
                                                          pin_memory=True, drop_last=False, shuffle=True, num_workers=10)
         train_loader.append(train_loader_model)
         weight_loader.append(weight_model)
+
+        ###################################################
         valid_loader_model = torch.utils.data.DataLoader(dataset=valid_dataset_model,
                                                          batch_size=params['Network']['physical_batch_size'],
                                                          pin_memory=True, drop_last=False, shuffle=False, num_workers=4)
         valid_loader.append(valid_loader_model)
+        ###################################################
+
+    ###################################################
+    # valid_dataset_model = vindr_data_loader(cfg_path=cfg_path, mode='test', augment=False)
+    # valid_loader_model = torch.utils.data.DataLoader(dataset=valid_dataset_model,
+    #                                                  batch_size=params['Network']['physical_batch_size'],
+    #                                                  pin_memory=True, drop_last=False, shuffle=False, num_workers=4)
+    # valid_loader.append(valid_loader_model)
+    ###################################################
 
     model = load_pretrained_resnet(num_classes=len(weight_loader[0]), resnet_num=resnet_num, pretrained=pretrained, mish=mish)
-
     trainer = Training(cfg_path, resume=resume, label_names=label_names)
 
     loss_function = BCEWithLogitsLoss
@@ -735,4 +745,4 @@ if __name__ == '__main__':
     #                                      experiment2_epoch_num=1, dataset_name='vindr', resnet_num=9, mish=True)
     main_train_federated(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
                          resume=False, augment=True, experiment_name='hitemp', dataset_names_list=['vindr', 'vindr'],
-                         aggregationweight=[1, 1], pretrained=False, resnet_num=9, mish=True)
+                         aggregationweight=[1, 1, 1, 1, 1, 1], pretrained=True, resnet_num=9, mish=True)

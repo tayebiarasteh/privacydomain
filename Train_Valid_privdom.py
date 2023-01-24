@@ -462,7 +462,7 @@ class Training:
 
             for idx in range(len(train_loader)):
                 print('loss client{}: {:.3f}'.format((idx + 1), loss_client_list[idx]))
-                self.writer.add_scalar('Train_loss_client' + str(idx + 1), loss_client_list[idx], self.epoch)
+                # self.writer.add_scalar('Train_loss_client' + str(idx + 1), loss_client_list[idx], self.epoch)
 
             # Saves information about training to config file
             self.params['Network']['num_epoch'] = self.epoch
@@ -492,27 +492,46 @@ class Training:
 
                 for idx in range(len(valid_loader)):
                     epoch_loss, average_f1_score, average_AUROC, average_accuracy, average_specificity, average_sensitivity, average_precision, average_optimal_threshold = self.valid_epoch(valid_loader[idx])
-                    valid_loss.append(epoch_loss)
-                    valid_F1.append(average_f1_score)
-                    valid_AUC.append(average_AUROC)
-                    valid_accuracy.append(average_accuracy)
-                    valid_specificity.append(average_specificity)
-                    valid_sensitivity.append(average_sensitivity)
-                    valid_precision.append(average_precision)
-                    optimal_threshold.append(average_optimal_threshold)
+
+                    if len(valid_loader) > 1:
+                        valid_loss.append(epoch_loss)
+                        valid_F1.append(average_f1_score)
+                        valid_AUC.append(average_AUROC)
+                        valid_accuracy.append(average_accuracy)
+                        valid_specificity.append(average_specificity)
+                        valid_sensitivity.append(average_sensitivity)
+                        valid_precision.append(average_precision)
+                        optimal_threshold.append(average_optimal_threshold)
+                        self.writer.add_scalar('Valid_avg_AUC_client' + str(idx + 1), valid_AUC[idx].mean(), self.epoch)
+                        self.writer.add_scalar('Valid_avg_accuracy_client' + str(idx + 1), valid_accuracy[idx].mean(), self.epoch)
+
+                    elif len(valid_loader) == 1:
+                        valid_loss = epoch_loss
+                        valid_F1 = average_f1_score
+                        valid_AUC = average_AUROC
+                        valid_accuracy = average_accuracy
+                        valid_specificity = average_specificity
+                        valid_sensitivity = average_sensitivity
+                        valid_precision = average_precision
+                        optimal_threshold = average_optimal_threshold
+                        self.writer.add_scalar('Valid_avg_AUC', valid_AUC.mean(), self.epoch)
+                        self.writer.add_scalar('Valid_avg_accuracy', valid_accuracy.mean(), self.epoch)
 
                     end_time = time.time()
                     total_time = end_time - total_start_time
                     iteration_hours, iteration_mins, iteration_secs = self.time_duration(start_time, end_time)
                     total_hours, total_mins, total_secs = self.time_duration(total_start_time, end_time)
 
-                    self.writer.add_scalar('valid_avg_AUC_client' + str(idx + 1), valid_AUC[idx].mean(), self.epoch)
-                    self.writer.add_scalar('valid_avg_accuracy_client' + str(idx + 1), valid_accuracy[idx].mean(), self.epoch)
-
-                self.savings_prints_federated(loss_weight_loader, iteration_hours, iteration_mins, iteration_secs, total_hours, total_mins,
-                                    total_secs, train_loss, total_time, total_overhead_time, total_datacopy_time,
-                                    valid_loss=valid_loss, valid_F1=valid_F1, valid_AUC=valid_AUC, valid_accuracy=valid_accuracy,
-                                    valid_specificity=valid_specificity, valid_sensitivity=valid_sensitivity, valid_precision=valid_precision, optimal_thresholds=optimal_threshold)
+                if len(valid_loader) > 1:
+                    self.savings_prints_federated(loss_weight_loader, iteration_hours, iteration_mins, iteration_secs, total_hours, total_mins,
+                                        total_secs, train_loss, total_time, total_overhead_time, total_datacopy_time,
+                                        valid_loss=valid_loss, valid_F1=valid_F1, valid_AUC=valid_AUC, valid_accuracy=valid_accuracy,
+                                        valid_specificity=valid_specificity, valid_sensitivity=valid_sensitivity, valid_precision=valid_precision, optimal_thresholds=optimal_threshold)
+                elif len(valid_loader) == 1:
+                    self.savings_prints(iteration_hours, iteration_mins, iteration_secs, total_hours, total_mins,
+                                        total_secs, train_loss, total_time,
+                                        valid_loss=valid_loss, valid_F1=valid_F1, valid_AUC=valid_AUC, valid_accuracy=valid_accuracy,
+                                        valid_specificity=valid_specificity, valid_sensitivity=valid_sensitivity, valid_precision=valid_precision, optimal_thresholds=optimal_threshold)
 
 
     def train_epoch_federated(self, train_loader, optimizer, model_local, loss_function_model):
