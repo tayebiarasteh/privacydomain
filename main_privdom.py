@@ -272,6 +272,119 @@ def main_train_federated(global_config_path="privacydomain/config/config.yaml",
 
 
 
+def main_test_normal(global_config_path="privacydomain/config/config.yaml", experiment_name='central_exp_for_test',
+                    resnet_num=50, mish=True, experiment_epoch_num=10, dataset_name='vindr'):
+    """Main function for multi label prediction with differential privacy
+
+    Parameters
+    ----------
+    experiment_name: str
+        name of the experiment to be loaded.
+    """
+    params = open_experiment(experiment_name, global_config_path)
+    cfg_path = params['cfg_path']
+
+    if dataset_name == 'vindr':
+        test_dataset = vindr_data_loader(cfg_path=cfg_path, mode='test', augment=False)
+    elif dataset_name == 'chexpert':
+        test_dataset = chexpert_data_loader(cfg_path=cfg_path, mode='test', augment=False)
+    elif dataset_name == 'mimic':
+        test_dataset = mimic_data_loader(cfg_path=cfg_path, mode='test', augment=False)
+    elif dataset_name == 'UKA':
+        test_dataset = UKA_data_loader(cfg_path=cfg_path, mode='test', augment=False)
+    elif dataset_name == 'cxr14':
+        test_dataset = cxr14_data_loader(cfg_path=cfg_path, mode='test', augment=False)
+    elif dataset_name == 'padchest':
+        test_dataset = padchest_data_loader(cfg_path=cfg_path, mode='test', augment=False)
+
+    weight = test_dataset.pos_weight()
+    label_names = test_dataset.chosen_labels
+
+    # Changeable network parameters
+    model = load_pretrained_resnet(num_classes=len(weight), resnet_num=resnet_num, mish=mish)
+    # model = ModuleValidator.fix(model)
+
+    test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=params['Network']['physical_batch_size'],
+                                               pin_memory=True, drop_last=False, shuffle=False, num_workers=16)
+
+    errors = ModuleValidator.validate(model, strict=False)
+    assert len(errors) == 0
+
+    # Initialize prediction
+    predictor = Prediction(cfg_path, label_names)
+    predictor.setup_model(model=model, epoch_num=experiment_epoch_num)
+    average_f1_score, average_AUROC, average_accuracy, average_specificity, average_sensitivity, average_precision = predictor.evaluate_2D(test_loader)
+
+    print('------------------------------------------------------'
+          '----------------------------------')
+    print(f'\t experiment: {experiment_name}\n')
+
+    print(f'\t avg AUROC: {average_AUROC.mean() * 100:.2f}% | avg accuracy: {average_accuracy.mean() * 100:.2f}%'
+    f' | avg specificity: {average_specificity.mean() * 100:.2f}%'
+    f' | avg recall (sensitivity): {average_sensitivity.mean() * 100:.2f}% | avg precision: {average_precision.mean() * 100:.2f}% | avg F1: {average_f1_score.mean() * 100:.2f}%\n')
+
+    print('Individual AUROC:')
+    for idx, pathology in enumerate(predictor.label_names):
+        print(f'\t{pathology}: {average_AUROC[idx] * 100:.2f}%')
+
+    print('\nIndividual accuracy:')
+    for idx, pathology in enumerate(predictor.label_names):
+        print(f'\t{pathology}: {average_accuracy[idx] * 100:.2f}%')
+
+    print('\nIndividual specificity scores:')
+    for idx, pathology in enumerate(predictor.label_names):
+        print(f'\t{pathology}: {average_specificity[idx] * 100:.2f}%')
+
+    print('\nIndividual sensitivity scores:')
+    for idx, pathology in enumerate(predictor.label_names):
+        print(f'\t{pathology}: {average_sensitivity[idx] * 100:.2f}%')
+
+    print('------------------------------------------------------'
+          '----------------------------------')
+
+    # saving the stats
+    msg = f'----------------------------------------------------------------------------------------\n' \
+          f'\t experiment: {experiment_name}\n\n' \
+          f'avg AUROC: {average_AUROC.mean() * 100:.2f}% | avg accuracy: {average_accuracy.mean() * 100:.2f}% ' \
+          f' | avg specificity: {average_specificity.mean() * 100:.2f}%' \
+          f' | avg recall (sensitivity): {average_sensitivity.mean() * 100:.2f}% | avg precision: {average_precision.mean() * 100:.2f}% | avg F1: {average_f1_score.mean() * 100:.2f}%\n\n'
+
+    with open(os.path.join(params['target_dir'], params['stat_log_path']) + '/test_Stats', 'a') as f:
+        f.write(msg)
+
+    msg = f'Individual AUROC:\n'
+    with open(os.path.join(params['target_dir'], params['stat_log_path']) + '/test_Stats', 'a') as f:
+        f.write(msg)
+    for idx, pathology in enumerate(label_names):
+        msg = f'{pathology}: {average_AUROC[idx] * 100:.2f}% | '
+        with open(os.path.join(params['target_dir'], params['stat_log_path']) + '/test_Stats', 'a') as f:
+            f.write(msg)
+
+    msg = f'\n\nIndividual accuracy:\n'
+    with open(os.path.join(params['target_dir'], params['stat_log_path']) + '/test_Stats', 'a') as f:
+        f.write(msg)
+    for idx, pathology in enumerate(label_names):
+        msg = f'{pathology}: {average_accuracy[idx] * 100:.2f}% | '
+        with open(os.path.join(params['target_dir'], params['stat_log_path']) + '/test_Stats', 'a') as f:
+            f.write(msg)
+
+    msg = f'\n\nIndividual specificity scores:\n'
+    with open(os.path.join(params['target_dir'], params['stat_log_path']) + '/test_Stats', 'a') as f:
+        f.write(msg)
+    for idx, pathology in enumerate(label_names):
+        msg = f'{pathology}: {average_specificity[idx] * 100:.2f}% | '
+        with open(os.path.join(params['target_dir'], params['stat_log_path']) + '/test_Stats', 'a') as f:
+            f.write(msg)
+
+    msg = f'\n\nIndividual sensitivity scores:\n'
+    with open(os.path.join(params['target_dir'], params['stat_log_path']) + '/test_Stats', 'a') as f:
+        f.write(msg)
+    for idx, pathology in enumerate(label_names):
+        msg = f'{pathology}: {average_sensitivity[idx] * 100:.2f}% | '
+        with open(os.path.join(params['target_dir'], params['stat_log_path']) + '/test_Stats', 'a') as f:
+            f.write(msg)
+
+
 def main_test_DP_2D(global_config_path="privacydomain/config/config.yaml", experiment_name='central_exp_for_test',
                     resnet_num=50, mish=False, experiment_epoch_num=10, dataset_name='vindr'):
     """Main function for multi label prediction with differential privacy
@@ -729,13 +842,15 @@ def load_pretrained_resnet(num_classes=2, resnet_num=34, pretrained=False, mish=
 
 
 if __name__ == '__main__':
-    delete_experiment(experiment_name='hitemp', global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml")
+    # delete_experiment(experiment_name='hitemp', global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml")
     # main_train_central(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
     #               valid=True, resume=False, augment=True, experiment_name='temp', dataset_name='vindr', pretrained=False, resnet_num=9)
     # main_train_DP(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
     #               valid=True, augment=False, resume=False, experiment_name='tttttt', dataset_name='vindr', pretrained=False, resnet_num=9, mish=True)
-    # main_test_DP_2D(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml", experiment_name='tttttt',
-    #                 resnet_num=9, mish=True, experiment_epoch_num=3, dataset_name='vindr')
+    # main_test_normal(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml", experiment_name='federated_mimicpret_resnet9_vindr_cxr14_chexpert_padchest_lr2e4',
+    #                 resnet_num=9, mish=True, experiment_epoch_num=18, dataset_name='UKA')
+    main_test_DP_2D(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml", experiment_name='chexpert_mimicpret_resnet9_lr5e4_eps8_lin150_5labels',
+                    resnet_num=9, mish=True, experiment_epoch_num=21, dataset_name='UKA')
 
     # main_test_2D_bootstrap(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
     #                        experiment_name1='tttttt', experiment1_epoch_num=3, dataset_name='vindr', resnet_num=9, mish=True)
@@ -743,6 +858,6 @@ if __name__ == '__main__':
     # main_test_2D_pvalue_out_of_bootstrap(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
     #                                      experiment_name1='tttttt', experiment_name2='ttt', experiment1_epoch_num=3,
     #                                      experiment2_epoch_num=1, dataset_name='vindr', resnet_num=9, mish=True)
-    main_train_federated(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
-                         resume=False, augment=True, experiment_name='hitemp', dataset_names_list=['vindr', 'vindr'],
-                         aggregationweight=[1, 1, 1, 1, 1, 1], pretrained=True, resnet_num=9, mish=True)
+    # main_train_federated(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
+    #                      resume=False, augment=True, experiment_name='hitemp', dataset_names_list=['vindr', 'vindr'],
+    #                      aggregationweight=[1, 1, 1, 1, 1, 1], pretrained=True, resnet_num=9, mish=True)

@@ -52,12 +52,14 @@ class Prediction:
 
     def setup_model(self, model, model_file_name=None, epoch_num=10):
         if model_file_name == None:
-            model_file_name = self.params['trained_model_name']
+            model_file_name = self.params['checkpoint']
         self.model = model.to(self.device)
 
-        # self.model.load_state_dict(torch.load(os.path.join(self.params['target_dir'], self.params['network_output_path'], model_file_name)))
-        # self.model.load_state_dict(torch.load(os.path.join(self.params['target_dir'], self.params['network_output_path']) + "epoch90_" + model_file_name))
-        self.model.load_state_dict(torch.load(os.path.join(self.params['target_dir'], self.params['network_output_path']) + "epoch" + str(epoch_num) + "_" + model_file_name))
+        try:
+            self.model.load_state_dict(torch.load(os.path.join(self.params['target_dir'], self.params['network_output_path']) + "epoch" + str(epoch_num) + "_" + model_file_name)['model_state_dict'])
+        except:
+            self.model.load_state_dict(torch.load(os.path.join(self.params['target_dir'], self.params['network_output_path']) + "epoch" + str(epoch_num) + "_trained_model.pth"))
+
 
 
     def setup_model_DP(self, model, privacy_engine, epoch_num=10):

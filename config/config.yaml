@@ -13,8 +13,8 @@ output_data_path: output_data/
 tb_logs_path: tensor_board_logs/
 stat_log_path: stat_logs
 checkpoint_name: checkpoint.tar
+checkpoint_name_best_loss: checkpoint_best_loss.tar
 DP_checkpoint_name: DP_checkpoint.tar
-trained_model_name: trained_model.pth
 
 # changeable items:
 file_path: /home/soroosh/Documents/datasets/XRay/

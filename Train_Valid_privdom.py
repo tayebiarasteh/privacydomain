@@ -22,6 +22,7 @@ from config.serde import read_config, write_config
 
 import warnings
 warnings.filterwarnings('ignore')
+warnings.simplefilter("ignore")
 epsilon = 1e-15
 
 
@@ -166,6 +167,7 @@ class Training:
         self.model_info = checkpoint['model_info']
         self.setup_cuda()
         self.model = model.to(self.device)
+
         if not weight == None:
             self.loss_weight = weight.to(self.device)
             self.loss_function = loss_function(pos_weight=self.loss_weight)
@@ -178,7 +180,10 @@ class Training:
         self.model.load_state_dict(checkpoint['model_state_dict'])
         self.optimiser.load_state_dict(checkpoint['optimizer_state_dict'])
         self.epoch = checkpoint['epoch']
-        self.best_loss = checkpoint['best_loss']
+        try:
+            self.best_loss = checkpoint['best_loss']
+        except:
+            self.best_loss = float('inf')
         self.writer = SummaryWriter(log_dir=os.path.join(os.path.join(
             self.params['target_dir'], self.params['tb_logs_path'])), purge_step=self.epoch + 1)
 
@@ -261,7 +266,6 @@ class Training:
             torch.save({'epoch': self.epoch,
                         'model_state_dict': self.model.state_dict(),
                         'optimizer_state_dict': self.optimiser.state_dict(),
-                        'loss_state_dict': self.loss_function.state_dict(),
                         'model_info': self.model_info, 'best_loss': self.best_loss},
                        os.path.join(self.params['target_dir'], self.params['network_output_path'], self.params['checkpoint_name']))
             ########## Save a checkpoint every epoch ##########
@@ -343,7 +347,7 @@ class Training:
             ########## Save a checkpoint every epoch ##########
             self.privacy_engine.save_checkpoint(path=os.path.join(self.params['target_dir'], self.params['network_output_path'],
                                   self.params['DP_checkpoint_name']), module=self.model, optimizer=self.optimiser)
-            torch.save({'epoch': self.epoch, 'loss_state_dict': self.loss_function.state_dict(),
+            torch.save({'epoch': self.epoch,
                         'model_info': self.model_info, 'best_loss': self.best_loss},
                        os.path.join(self.params['target_dir'], self.params['network_output_path'], self.params['checkpoint_name']))
             ########## Save a checkpoint every epoch ##########
@@ -472,8 +476,7 @@ class Training:
             torch.save({'epoch': self.epoch,
                         'model_state_dict': self.model.state_dict(),
                         'optimizer_state_dict': self.optimiser.state_dict(),
-                        'loss_state_dict': self.loss_function.state_dict(),
-                        'model_info': self.model_info},
+                        'model_info': self.model_info, 'best_loss': self.best_loss},
                        os.path.join(self.params['target_dir'], self.params['network_output_path'], self.params['checkpoint_name']))
             ######## Save a checkpoint every epoch ########
 
@@ -502,8 +505,8 @@ class Training:
                         valid_sensitivity.append(average_sensitivity)
                         valid_precision.append(average_precision)
                         optimal_threshold.append(average_optimal_threshold)
-                        self.writer.add_scalar('Valid_avg_AUC_client' + str(idx + 1), valid_AUC[idx].mean(), self.epoch)
-                        self.writer.add_scalar('Valid_avg_accuracy_client' + str(idx + 1), valid_accuracy[idx].mean(), self.epoch)
+                        self.writer.add_scalar('Valid_avg_AUROC_client' + str(idx + 1), valid_AUC[idx].mean(), self.epoch)
+                        # self.writer.add_scalar('Valid_avg_accuracy_client' + str(idx + 1), valid_accuracy[idx].mean(), self.epoch)
 
                     elif len(valid_loader) == 1:
                         valid_loss = epoch_loss
@@ -514,7 +517,7 @@ class Training:
                         valid_sensitivity = average_sensitivity
                         valid_precision = average_precision
                         optimal_threshold = average_optimal_threshold
-                        self.writer.add_scalar('Valid_avg_AUC', valid_AUC.mean(), self.epoch)
+                        self.writer.add_scalar('Valid_avg_AUROC', valid_AUC.mean(), self.epoch)
                         self.writer.add_scalar('Valid_avg_accuracy', valid_accuracy.mean(), self.epoch)
 
                     end_time = time.time()
@@ -709,13 +712,20 @@ class Training:
         if valid_loss:
             if valid_loss < self.best_loss:
                 self.best_loss = valid_loss
-                torch.save(self.model.state_dict(), os.path.join(self.params['target_dir'],
-                                                                 self.params['network_output_path'], self.params['trained_model_name']))
+                torch.save({'epoch': self.epoch,
+                            'model_state_dict': self.model.state_dict(),
+                            'optimizer_state_dict': self.optimiser.state_dict(),
+                            'model_info': self.model_info, 'best_loss': self.best_loss},
+                           os.path.join(self.params['target_dir'], self.params['network_output_path'], self.params['checkpoint_name_best_loss']))
+
         else:
             if train_loss < self.best_loss:
                 self.best_loss = train_loss
-                torch.save(self.model.state_dict(), os.path.join(self.params['target_dir'],
-                                                                 self.params['network_output_path'], self.params['trained_model_name']))
+                torch.save({'epoch': self.epoch,
+                            'model_state_dict': self.model.state_dict(),
+                            'optimizer_state_dict': self.optimiser.state_dict(),
+                            'model_info': self.model_info, 'best_loss': self.best_loss},
+                           os.path.join(self.params['target_dir'], self.params['network_output_path'], self.params['checkpoint_name_best_loss']))
 
         # Save a checkpoint every epoch
         if privacy_engine:
@@ -733,14 +743,16 @@ class Training:
             torch.save({'epoch': self.epoch,
                         'model_state_dict': self.model.state_dict(),
                         'optimizer_state_dict': self.optimiser.state_dict(),
-                        'loss_state_dict': self.loss_function.state_dict(),
                         'model_info': self.model_info, 'best_loss': self.best_loss},
                        os.path.join(self.params['target_dir'], self.params['network_output_path'], self.params['checkpoint_name']))
             # Saving every couple of epochs
             if (self.epoch) % self.params['display_stats_freq'] == 0:
-                torch.save(self.model.state_dict(),
+                torch.save({'epoch': self.epoch,
+                            'model_state_dict': self.model.state_dict(),
+                            'optimizer_state_dict': self.optimiser.state_dict(),
+                            'model_info': self.model_info, 'best_loss': self.best_loss},
                            os.path.join(self.params['target_dir'], self.params['network_output_path'],
-                                        'epoch{}_'.format(self.epoch) + self.params['trained_model_name']))
+                                        'epoch{}_'.format(self.epoch) + self.params['checkpoint_name']))
 
         if privacy_engine:
             epsilon = self.privacy_engine.get_epsilon(float(self.params['DP']['delta']))
@@ -876,15 +888,17 @@ class Training:
 
             # Saving every couple of epochs
             if (self.epoch) % self.params['display_stats_freq'] == 0:
-                torch.save(self.model.state_dict(),
+                torch.save({'epoch': self.epoch,
+                            'model_state_dict': self.model.state_dict(),
+                            'optimizer_state_dict': self.optimiser.state_dict(),
+                            'model_info': self.model_info, 'best_loss': self.best_loss},
                            os.path.join(self.params['target_dir'], self.params['network_output_path'],
-                                        'epoch{}_'.format(self.epoch) + self.params['trained_model_name']))
+                                        'epoch{}_'.format(self.epoch) + self.params['checkpoint_name']))
 
             # Save a checkpoint every epoch
             torch.save({'epoch': self.epoch,
                         'model_state_dict': self.model.state_dict(),
                         'optimizer_state_dict': self.optimiser.state_dict(),
-                        'loss_state_dict': self.loss_function.state_dict(),
                         'model_info': self.model_info, 'best_loss': self.best_loss},
                        os.path.join(self.params['target_dir'], self.params['network_output_path'], self.params['checkpoint_name']))
 
@@ -1002,4 +1016,5 @@ class Training:
             # self.writer.add_scalar('Valid_avg_specificity', valid_specificity.mean(), self.epoch)
             # self.writer.add_scalar('Valid_avg_precision', valid_precision.mean(), self.epoch)
             # self.writer.add_scalar('Valid_avg_recall_sensitivity', valid_sensitivity.mean(), self.epoch)
+
 
