@@ -30,7 +30,7 @@ warnings.simplefilter("ignore")
 
 
 def main_train_central(global_config_path="privacydomain/config/config.yaml", valid=False,
-                  resume=False, augment=False, experiment_name='name', dataset_name='vindr', pretrained=False, resnet_num=50, mish=False):
+                  resume=False, augment=False, experiment_name='name', dataset_name='vindr', pretrained=False, resnet_num=50, mish=True):
     """Main function for training + validation centrally
         Parameters
         ----------
@@ -240,23 +240,13 @@ def main_train_federated(global_config_path="privacydomain/config/config.yaml",
                                                          pin_memory=True, drop_last=False, shuffle=True, num_workers=10)
         train_loader.append(train_loader_model)
         weight_loader.append(weight_model)
-
-        ###################################################
         valid_loader_model = torch.utils.data.DataLoader(dataset=valid_dataset_model,
                                                          batch_size=params['Network']['physical_batch_size'],
                                                          pin_memory=True, drop_last=False, shuffle=False, num_workers=4)
         valid_loader.append(valid_loader_model)
-        ###################################################
-
-    ###################################################
-    # valid_dataset_model = vindr_data_loader(cfg_path=cfg_path, mode='test', augment=False)
-    # valid_loader_model = torch.utils.data.DataLoader(dataset=valid_dataset_model,
-    #                                                  batch_size=params['Network']['physical_batch_size'],
-    #                                                  pin_memory=True, drop_last=False, shuffle=False, num_workers=4)
-    # valid_loader.append(valid_loader_model)
-    ###################################################
 
     model = load_pretrained_resnet(num_classes=len(weight_loader[0]), resnet_num=resnet_num, pretrained=pretrained, mish=mish)
+
     trainer = Training(cfg_path, resume=resume, label_names=label_names)
 
     loss_function = BCEWithLogitsLoss
@@ -511,10 +501,56 @@ def main_test_DP_2D(global_config_path="privacydomain/config/config.yaml", exper
             f.write(msg)
 
 
+def main_test_normal_bootstrap(global_config_path="privacydomain/config/config.yaml", experiment_name='central_exp_for_test', experiment_epoch_num=100, dataset_name='vindr', resnet_num=9, mish=True):
+    """Main function for multi label prediction
+    model1 must be DP model
 
-def main_test_2D_bootstrap(global_config_path="privacydomain/config/config.yaml",
-                                                 experiment_name1='central_exp_for_test',
-                                                 experiment1_epoch_num=100, dataset_name='vindr', resnet_num=9, mish=True):
+    Parameters
+    ----------
+    experiment_name: str
+        name of the experiment to be loaded.
+    """
+    params = open_experiment(experiment_name, global_config_path)
+    cfg_path = params['cfg_path']
+
+    if dataset_name == 'vindr':
+        test_dataset = vindr_data_loader(cfg_path=cfg_path, mode='test', augment=False)
+    elif dataset_name == 'chexpert':
+        test_dataset = chexpert_data_loader(cfg_path=cfg_path, mode='test', augment=False)
+    elif dataset_name == 'mimic':
+        test_dataset = mimic_data_loader(cfg_path=cfg_path, mode='test', augment=False)
+    elif dataset_name == 'UKA':
+        test_dataset = UKA_data_loader(cfg_path=cfg_path, mode='test', augment=False)
+    elif dataset_name == 'cxr14':
+        test_dataset = cxr14_data_loader(cfg_path=cfg_path, mode='test', augment=False)
+    elif dataset_name == 'padchest':
+        test_dataset = padchest_data_loader(cfg_path=cfg_path, mode='test', augment=False)
+
+    weight = test_dataset.pos_weight()
+    label_names = test_dataset.chosen_labels
+
+    index_list = []
+    for counter in range(1000):
+        index_list.append(np.random.choice(len(test_dataset), len(test_dataset)))
+
+    model = load_pretrained_resnet(num_classes=len(weight), resnet_num=resnet_num, mish=mish)
+    # model = ModuleValidator.fix(model)
+
+    test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=params['Network']['physical_batch_size'],
+                                               pin_memory=True, drop_last=False, shuffle=False, num_workers=16)
+
+    errors = ModuleValidator.validate(model, strict=False)
+    assert len(errors) == 0
+
+    # Initialize prediction
+    predictor = Prediction(cfg_path, label_names)
+    predictor.setup_model(model=model, epoch_num=experiment_epoch_num)
+
+    pred_array1, target_array1 = predictor.predict_only(test_loader)
+    AUC_list1 = predictor.bootstrapper(pred_array1.cpu().numpy(), target_array1.int().cpu().numpy(), index_list, dataset_name)
+
+
+def main_test_DP_bootstrap(global_config_path="privacydomain/config/config.yaml", experiment_name1='central_exp_for_test', experiment1_epoch_num=100, dataset_name='vindr', resnet_num=9, mish=True):
     """Main function for multi label prediction
     model1 must be DP model
 
@@ -569,7 +605,7 @@ def main_test_2D_bootstrap(global_config_path="privacydomain/config/config.yaml"
     predictor1 = Prediction(cfg_path1, label_names)
     predictor1.setup_model_DP(model=model1, privacy_engine=privacy_engine1, epoch_num=experiment1_epoch_num)
 
-    delta = float(6e-6)
+    delta = float(params1['DP']['delta'])
     epsilon = predictor1.privacy_engine.get_epsilon(delta)
     print(f"\n(ε = {epsilon:.2f}, δ = {delta})\n")
     msg = f"\n(ε = {epsilon:.2f}, δ = {delta})\n"
@@ -765,7 +801,7 @@ def main_test_2D_pvalue_out_of_bootstrap(global_config_path="privacydomain/confi
 
 
 
-def load_pretrained_resnet(num_classes=2, resnet_num=34, pretrained=False, mish=False):
+def load_pretrained_resnet(num_classes=2, resnet_num=34, pretrained=False, mish=True):
     # Load a pre-trained model from config file
 
     # Load a pre-trained model from Torchvision
@@ -842,22 +878,20 @@ def load_pretrained_resnet(num_classes=2, resnet_num=34, pretrained=False, mish=
 
 
 if __name__ == '__main__':
-    # delete_experiment(experiment_name='hitemp', global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml")
+    # delete_experiment(experiment_name='federated_mimicpret_resnet9_vindr_cxr14_chexpert_padchest_lr2e4', global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml")
     # main_train_central(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
-    #               valid=True, resume=False, augment=True, experiment_name='temp', dataset_name='vindr', pretrained=False, resnet_num=9)
+    #               valid=True, resume=False, augment=True, experiment_name='cxr14_central_resnet9_mimicpret_lr1e4', dataset_name='cxr14', pretrained=True, resnet_num=9, mish=True)
     # main_train_DP(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
-    #               valid=True, augment=False, resume=False, experiment_name='tttttt', dataset_name='vindr', pretrained=False, resnet_num=9, mish=True)
-    # main_test_normal(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml", experiment_name='federated_mimicpret_resnet9_vindr_cxr14_chexpert_padchest_lr2e4',
-    #                 resnet_num=9, mish=True, experiment_epoch_num=18, dataset_name='UKA')
-    main_test_DP_2D(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml", experiment_name='chexpert_mimicpret_resnet9_lr5e4_eps8_lin150_5labels',
-                    resnet_num=9, mish=True, experiment_epoch_num=21, dataset_name='UKA')
+    #               valid=True, augment=False, resume=False, experiment_name='vindr_DP_resnet9_mimicpret_lr4e4_eps4_lin150_5labels', dataset_name='vindr', pretrained=True, resnet_num=9, mish=True)
+    # main_test_DP_2D(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml", experiment_name='tttttt',
+    #                 resnet_num=9, mish=True, experiment_epoch_num=3, dataset_name='vindr')
 
-    # main_test_2D_bootstrap(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
-    #                        experiment_name1='tttttt', experiment1_epoch_num=3, dataset_name='vindr', resnet_num=9, mish=True)
+    # main_test_normal_bootstrap(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
+    #                        experiment_name='UKA_central_mimicpret_resnet9_lr2e4', experiment_epoch_num=20, dataset_name='UKA', resnet_num=9, mish=True)
 
-    # main_test_2D_pvalue_out_of_bootstrap(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
-    #                                      experiment_name1='tttttt', experiment_name2='ttt', experiment1_epoch_num=3,
-    #                                      experiment2_epoch_num=1, dataset_name='vindr', resnet_num=9, mish=True)
+    main_test_DP_bootstrap(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
+                           experiment_name1='chexpert_mimicpret_resnet9_lr5e4_eps8_lin150_5labels', experiment1_epoch_num=20, dataset_name='UKA', resnet_num=9, mish=True)
+    #
     # main_train_federated(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
-    #                      resume=False, augment=True, experiment_name='hitemp', dataset_names_list=['vindr', 'vindr'],
-    #                      aggregationweight=[1, 1, 1, 1, 1, 1], pretrained=True, resnet_num=9, mish=True)
+    #                      resume=False, augment=True, experiment_name='federated_mimicpret_resnet9_vindr_cxr14_chexpert_padchest_lr2e4', dataset_names_list=['vindr', 'cxr14', 'chexpert', 'padchest'],
+    #                      aggregationweight=[1, 1, 1, 1], pretrained=True, resnet_num=9, mish=True)

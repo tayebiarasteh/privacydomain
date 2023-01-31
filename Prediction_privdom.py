@@ -52,7 +52,7 @@ class Prediction:
 
     def setup_model(self, model, model_file_name=None, epoch_num=10):
         if model_file_name == None:
-            model_file_name = self.params['checkpoint']
+            model_file_name = self.params['checkpoint_name']
         self.model = model.to(self.device)
 
         try:
