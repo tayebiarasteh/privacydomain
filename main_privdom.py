@@ -16,7 +16,7 @@ from opacus.validators import ModuleValidator
 from opacus import PrivacyEngine
 import numpy as np
 
-from config.serde import open_experiment, create_experiment, delete_experiment, write_config
+from config.serde import open_experiment, create_experiment, delete_experiment
 from Train_Valid_privdom import Training
 from Prediction_privdom import Prediction
 from data.data_provider_privdom import UKA_data_loader, padchest_data_loader, mimic_data_loader, chexpert_data_loader, cxr14_data_loader, vindr_data_loader
@@ -887,11 +887,20 @@ if __name__ == '__main__':
     #                 resnet_num=9, mish=True, experiment_epoch_num=3, dataset_name='vindr')
 
     # main_test_normal_bootstrap(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
-    #                        experiment_name='UKA_central_mimicpret_resnet9_lr2e4', experiment_epoch_num=20, dataset_name='UKA', resnet_num=9, mish=True)
+    #                        experiment_name='vindr_central_resnet9_mimicpret_lr4e2_5labels', experiment_epoch_num=14, dataset_name='cxr14', resnet_num=9, mish=True)
+
+
+    # main_test_DP_bootstrap(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
+    #                        experiment_name1='UKA_mimicpret_resnet9_lr1e4_eps10', experiment1_epoch_num=117, dataset_name='vindr', resnet_num=9, mish=True)
 
     main_test_DP_bootstrap(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
-                           experiment_name1='chexpert_mimicpret_resnet9_lr5e4_eps8_lin150_5labels', experiment1_epoch_num=20, dataset_name='UKA', resnet_num=9, mish=True)
-    #
+                           experiment_name1='UKA_mimicpret_resnet9_lr1e4_eps10', experiment1_epoch_num=117, dataset_name='cxr14', resnet_num=9, mish=True)
+
+    main_test_DP_bootstrap(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
+                           experiment_name1='UKA_mimicpret_resnet9_lr1e4_eps10', experiment1_epoch_num=117, dataset_name='chexpert', resnet_num=9, mish=True)
+
+    main_test_DP_bootstrap(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
+                           experiment_name1='UKA_mimicpret_resnet9_lr1e4_eps10', experiment1_epoch_num=117, dataset_name='padchest', resnet_num=9, mish=True)
     # main_train_federated(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
     #                      resume=False, augment=True, experiment_name='federated_mimicpret_resnet9_vindr_cxr14_chexpert_padchest_lr2e4', dataset_names_list=['vindr', 'cxr14', 'chexpert', 'padchest'],
     #                      aggregationweight=[1, 1, 1, 1], pretrained=True, resnet_num=9, mish=True)
