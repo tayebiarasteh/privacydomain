@@ -683,6 +683,130 @@ class supplements():
         plt.show()
 
 
+    def all_figs_epsten(self):
+
+        # order: vindr, cxr14, chexpert, UKA, padchest
+
+        # order:
+
+        # vindr,
+        # cxr14,
+        # chexpert,
+        # UKA,
+        # padchest
+        sns.set(font_scale=1.2)
+        plt.suptitle('AUROC values for 3.5 < ε < 10', fontsize=20)
+
+        ########## average #########
+        auc_list = np.array([[0.94,	0.69,	0.72,	0.70,	0.80],
+                            [0.88,	0.78,	0.76,	0.68,	0.83],
+                            [0.84,	0.75,	0.82,	0.68,	0.83],
+                            [0.85,	0.67,	0.72,	0.88,	0.80],
+                            [0.89,	0.74,	0.74,	0.70,	0.89]])
+
+        df = pd.DataFrame.from_records(auc_list)
+        df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
+        df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
+        plt.subplot(231)
+        plt.title('(A) Average')
+        ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
+        ax.tick_params(axis='y', left=False, labelleft=True)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        plt.ylabel('Training on', fontsize=14)
+        ########## average #########
+
+        ########## cardiomegaly #########
+        auc_list = np.array([[0.96,	0.70,	0.72,	0.72,	0.81],
+                            [0.90,	0.88,	0.80,	0.74,	0.89],
+                            [0.89,	0.85,	0.87,	0.75,	0.88],
+                            [0.94,	0.77,	0.81,	0.85,	0.85],
+                            [0.94,	0.84,	0.77,	0.74,	0.93]])
+
+        df = pd.DataFrame.from_records(auc_list)
+        df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
+        df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
+        plt.subplot(232)
+        plt.title('(B) Cardiomegaly')
+        ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
+        ax.tick_params(axis='y', left=False, labelleft=True)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ########## cardiomegaly #########
+
+        ########## effusion #########
+        auc_list = np.array([[0.98,	0.77,	0.84,	0.73,	0.93],
+                            [0.96,	0.83,	0.86,	0.74,	0.94],
+                            [0.97,	0.81,	0.88,	0.80,	0.95],
+                            [0.90,	0.73,	0.82,	0.91,	0.92],
+                            [0.95,	0.80,	0.85,	0.78,	0.96]])
+
+        df = pd.DataFrame.from_records(auc_list)
+        df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
+        df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
+        plt.subplot(233)
+        plt.title('(C) Pleural Effusion')
+        ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
+        ax.tick_params(axis='y', left=False, labelleft=True)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ########## effusion #########
+
+        ########## pneumonia #########
+        auc_list = np.array([[0.92,	0.65,	0.57,	0.76,	0.75],
+                            [0.87,	0.71,	0.64,	0.75,	0.76],
+                            [0.75,	0.69,	0.76,	0.79,	0.76],
+                            [0.84,	0.68,	0.62,	0.92,	0.79],
+                            [0.86,	0.65,	0.62,	0.76,	0.86]])
+
+        df = pd.DataFrame.from_records(auc_list)
+        df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
+        df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
+        plt.subplot(234)
+        plt.title('(D) Pneumonia')
+        ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
+        ax.tick_params(axis='y', left=False, labelleft=True)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        plt.ylabel('Training on', fontsize=14)
+        plt.xlabel('Test on', fontsize=14)
+        ########## pneumonia #########
+
+        ########## atelectasis #########
+        auc_list = np.array([[0.90,	0.63,	0.60,	0.61,	0.73],
+                            [0.85,	0.76,	0.66,	0.45,	0.78],
+                            [0.71,	0.71,	0.70,	0.33,	0.74],
+                            [0.81,	0.53,	0.55,	0.86,	0.71],
+                            [0.86,	0.72,	0.63,	0.56,	0.86]])
+
+        df = pd.DataFrame.from_records(auc_list)
+        df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
+        df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
+        plt.subplot(235)
+        plt.title('(E) Atelectasis')
+        ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
+        ax.tick_params(axis='y', left=False, labelleft=True)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        plt.xlabel('Test on', fontsize=14)
+        ########## atelectasis #########
+
+        ########## Healthy #########
+        auc_list = np.array([[0.91,	0.69,	0.84,	0.71,	0.79],
+                            [0.84,	0.72,	0.85,	0.70,	0.77],
+                            [0.86,	0.71,	0.88,	0.73,	0.80],
+                            [0.77,	0.65,	0.81,	0.86,	0.76],
+                            [0.87,	0.70,	0.85,	0.67,	0.86]])
+
+        df = pd.DataFrame.from_records(auc_list)
+        df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
+        df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
+        plt.subplot(236)
+        plt.title('(F) Healthy')
+        ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
+        ax.tick_params(axis='y', left=False, labelleft=True)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        plt.xlabel('Test on', fontsize=14)
+        ########## Healthy #########
+
+        plt.show()
+
+
 
     def all_figs_nondp(self):
 
@@ -809,6 +933,81 @@ class supplements():
 
 
 
+    def sample_sizes(self):
+
+        sns.set(font_scale=1.2)
+        plt.suptitle('Total sample sizes for different subsets of each test benchmark', fontsize=20)
+        plt.rcParams['font.size'] = 14
+
+        ########## Full Set #########
+        x = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
+        height = [3000, 25596, 29320, 39824, 22045]
+
+        ax = plt.subplot(231)
+        plt.title('(A) Full Set', fontsize=18)
+        plt.ylim([0, 44000])
+        bars = plt.bar(x, height)
+        ax.bar_label(bars)
+        ########## Full Set #########
+
+        ########## Females #########
+        x = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
+        height = [552, 10714, 11436, 14457, 10636]
+
+        ax = plt.subplot(232)
+        plt.title('(B) Female', fontsize=18)
+        plt.ylim([0, 44000])
+        bars = plt.bar(x, height)
+        ax.bar_label(bars)
+        ########## Females #########
+
+        ########## males #########
+        x = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
+        height = [702, 14882, 17884, 25367, 11408]
+
+        ax = plt.subplot(233)
+        plt.title('(C) Male', fontsize=18)
+        plt.ylim([0, 44000])
+        bars = plt.bar(x, height)
+        ax.bar_label(bars)
+        ########## males #########
+
+        ########## 0, 40 #########
+        x = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
+        height = [149, 8410, 4391, 2297, 3612]
+
+        ax = plt.subplot(234)
+        plt.title('(E) [0, 40) Years', fontsize=18)
+        plt.ylim([0, 44000])
+        bars = plt.bar(x, height)
+        ax.bar_label(bars)
+        ########## 0, 40 #########
+
+        ########## [40, 70] #########
+        x = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
+        height = [250, 15495, 16420, 19197, 10788]
+
+        ax = plt.subplot(235)
+        plt.title('(E) [40, 70) Years', fontsize=18)
+        plt.ylim([0, 44000])
+        bars = plt.bar(x, height)
+        ax.bar_label(bars)
+        ########## [40, 70] #########
+
+        ########## [70 100] #########
+        x = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
+        height = [69, 1690, 8509, 18328, 7503]
+
+        ax = plt.subplot(236)
+        plt.title('(F) [70, 100) Years', fontsize=18)
+        plt.ylim([0, 44000])
+        bars = plt.bar(x, height)
+        ax.bar_label(bars)
+        ########## [70 100] #########
+
+
+        plt.show()
+
 
 
 
@@ -822,5 +1021,7 @@ if __name__ == '__main__':
     # manuscript.age_plots_belowone()
     # manuscript.ondomain_DP_AUC_plot()
     # supplement.all_figs_epsaboveone()
-    supplement.all_figs_nondp()
+    # supplement.all_figs_epsten()
+    # supplement.all_figs_nondp()
+    supplement.sample_sizes()
 
