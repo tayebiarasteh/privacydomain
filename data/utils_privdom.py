@@ -946,7 +946,7 @@ class supplements():
         ax = plt.subplot(231)
         plt.title('(A) Full Set', fontsize=18)
         plt.ylim([0, 44000])
-        bars = plt.bar(x, height)
+        bars = plt.bar(x, height, color='green')
         ax.bar_label(bars)
         ########## Full Set #########
 
@@ -957,7 +957,7 @@ class supplements():
         ax = plt.subplot(232)
         plt.title('(B) Female', fontsize=18)
         plt.ylim([0, 44000])
-        bars = plt.bar(x, height)
+        bars = plt.bar(x, height, color='red')
         ax.bar_label(bars)
         ########## Females #########
 
@@ -968,7 +968,7 @@ class supplements():
         ax = plt.subplot(233)
         plt.title('(C) Male', fontsize=18)
         plt.ylim([0, 44000])
-        bars = plt.bar(x, height)
+        bars = plt.bar(x, height, color='red')
         ax.bar_label(bars)
         ########## males #########
 
@@ -1010,6 +1010,478 @@ class supplements():
 
 
 
+    def sample_sizes_counter(self):
+        path = "DATASET_CSV.csv"
+
+        df = pd.read_csv(path, sep=',', low_memory=False)
+
+        # df1 = df[df['view']== 'PA']
+        # df2 = df[df['view']== 'AP']
+        # df3 = df[df['view']== 'AP_horizontal']
+        # df = df1.append(df2)
+        # df = df.append(df3)
+
+        # df = df[df['view']== 'Frontal']
+
+        df = df[df['split'] == 'test']
+
+        print('total:', len(df))
+
+        df_f = df[df['gender'] == 'F']
+        print('female:', len(df_f))
+
+        df_m = df[df['gender'] == 'M']
+        print('male:', len(df_m))
+
+        df_1 = df[df['age'] > 0]
+        df_1 = df_1[df_1['age'] < 40]
+        print('[0 40]:', len(df_1))
+
+        df_2 = df[df['age'] >= 40]
+        df_2 = df_2[df_2['age'] < 70]
+        print('[40 70]:', len(df_2))
+
+        df_3 = df[df['age'] >= 70]
+        df_3 = df_3[df_3['age'] < 100]
+        print('[70 100]:', len(df_3))
+
+
+    def sample_sizes_counter_individuallabels(self):
+        path = "DATASET_CSV.csv"
+
+        df = pd.read_csv(path, sep=',', low_memory=False)
+
+        # df1 = df[df['view']== 'PA']
+        # df2 = df[df['view']== 'AP']
+        # df3 = df[df['view']== 'AP_horizontal']
+        # df = df1.append(df2)
+        # df = df.append(df3)
+
+        # df = df[df['view']== 'Frontal']
+
+        df = df[df['split'] == 'test']
+
+        # disease = 'cardiomegaly'
+        # disease = 'pleural_effusion'
+        # disease = 'pneumonia'
+        # disease = 'atelectasis'
+        disease = 'no_finding'
+
+        zero = len(df[df[disease] == 1])
+        print('total:', zero)
+
+        df_f = df[df['gender'] == 'Female']
+        first = len(df_f[df_f[disease] == 1])
+        print('female:', first)
+
+        df_m = df[df['gender'] == 'Male']
+        sec = len(df_m[df_m[disease] == 1])
+        print('male:', sec)
+
+        df_1 = df[df['age'] > 0]
+        df_1 = df_1[df_1['age'] < 40]
+        third = len(df_1[df_1[disease] == 1])
+        print('[0 40]:', third)
+
+        df_2 = df[df['age'] >= 40]
+        df_2 = df_2[df_2['age'] < 70]
+        fourth = len(df_2[df_2[disease] == 1])
+        print('[40 70]:', fourth)
+
+        df_3 = df[df['age'] >= 70]
+        df_3 = df_3[df_3['age'] < 100]
+        fifth = len(df_3[df_3[disease] == 1])
+        print('[70 100]:', fifth)
+
+
+
+    def individual_label_sample_sizes_VDR(self):
+
+        sns.set(font_scale=1.2)
+        plt.suptitle('Total sample sizes for individual positive labels for different subsets of VDR test set', fontsize=20)
+        plt.rcParams['font.size'] = 14
+
+        ########## Full Set #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [309, 111, 246, 86, 2051]
+
+        ax = plt.subplot(231)
+        plt.title('(A) Full Set VDR', fontsize=18)
+        plt.ylim([0, 500])
+        bars = plt.bar(x, height, color='green')
+        ax.bar_label(bars)
+        ########## Full Set #########
+
+        ########## Females #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [124, 23, 37, 18, 308]
+
+        ax = plt.subplot(232)
+        plt.title('(B) Female VDR', fontsize=18)
+        plt.ylim([0, 500])
+        bars = plt.bar(x, height, color='red')
+        ax.bar_label(bars)
+        ########## Females #########
+
+        ########## males #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [58, 43, 77, 29, 392]
+
+        ax = plt.subplot(233)
+        plt.title('(C) Male VDR', fontsize=18)
+        plt.ylim([0, 500])
+        bars = plt.bar(x, height, color='red')
+        ax.bar_label(bars)
+        ########## males #########
+
+        ########## 0, 40 #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [6, 2, 8, 2, 125]
+
+        ax = plt.subplot(234)
+        plt.title('(E) [0, 40) Years VDR', fontsize=18)
+        plt.ylim([0, 500])
+        bars = plt.bar(x, height)
+        ax.bar_label(bars)
+        ########## 0, 40 #########
+
+        ########## [40, 70] #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [37, 11, 26, 14, 115]
+
+        ax = plt.subplot(235)
+        plt.title('(E) [40, 70) Years VDR', fontsize=18)
+        plt.ylim([0, 500])
+        bars = plt.bar(x, height)
+        ax.bar_label(bars)
+        ########## [40, 70] #########
+
+        ########## [70 100] #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [32, 4, 9, 3, 4]
+
+        ax = plt.subplot(236)
+        plt.title('(F) [70, 100) Years VDR', fontsize=18)
+        plt.ylim([0, 500])
+        bars = plt.bar(x, height)
+        ax.bar_label(bars)
+        ########## [70 100] #########
+
+
+        plt.show()
+
+
+
+    def individual_label_sample_sizes_C14(self):
+
+        sns.set(font_scale=1.2)
+        plt.suptitle('Total sample sizes for individual positive labels for different subsets of C14 test set', fontsize=20)
+        plt.rcParams['font.size'] = 14
+
+        ########## Full Set #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [1069, 4658, 555, 3279, 9861]
+
+        ax = plt.subplot(231)
+        plt.title('(A) Full Set C14', fontsize=18)
+        plt.ylim([0, 10000])
+        bars = plt.bar(x, height, color='green')
+        ax.bar_label(bars)
+        ########## Full Set #########
+
+        ########## Females #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [528, 1921, 221, 1363, 4151]
+
+        ax = plt.subplot(232)
+        plt.title('(B) Female C14', fontsize=18)
+        plt.ylim([0, 10000])
+        bars = plt.bar(x, height, color='red')
+        ax.bar_label(bars)
+        ########## Females #########
+
+        ########## males #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [541, 2737, 334, 1916, 5710]
+
+        ax = plt.subplot(233)
+        plt.title('(C) Male C14', fontsize=18)
+        plt.ylim([0, 10000])
+        bars = plt.bar(x, height, color='red')
+        ax.bar_label(bars)
+        ########## males #########
+
+        ########## 0, 40 #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [415, 1336, 229, 801, 3488]
+
+        ax = plt.subplot(234)
+        plt.title('(E) [0, 40) Years C14', fontsize=18)
+        plt.ylim([0, 10000])
+        bars = plt.bar(x, height)
+        ax.bar_label(bars)
+        ########## 0, 40 #########
+
+        ########## [40, 70] #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [575, 2884, 305, 2157, 5782]
+
+        ax = plt.subplot(235)
+        plt.title('(E) [40, 70) Years C14', fontsize=18)
+        plt.ylim([0, 10000])
+        bars = plt.bar(x, height)
+        ax.bar_label(bars)
+        ########## [40, 70] #########
+
+        ########## [70 100] #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [79, 438, 21, 321, 590]
+
+        ax = plt.subplot(236)
+        plt.title('(F) [70, 100) Years C14', fontsize=18)
+        plt.ylim([0, 10000])
+        bars = plt.bar(x, height)
+        ax.bar_label(bars)
+        ########## [70 100] #########
+
+
+        plt.show()
+
+
+
+    def individual_label_sample_sizes_CPT(self):
+
+        sns.set(font_scale=1.2)
+        plt.suptitle('Total sample sizes for individual positive labels for different subsets of CPT test set', fontsize=20)
+        plt.rcParams['font.size'] = 14
+
+        ########## Full Set #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [3944, 11438, 816, 4522, 3540]
+
+        ax = plt.subplot(231)
+        plt.title('(A) Full Set CPT', fontsize=18)
+        plt.ylim([0, 12000])
+        bars = plt.bar(x, height, color='green')
+        ax.bar_label(bars)
+        ########## Full Set #########
+
+        ########## Females #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [1541, 4520, 307, 1670, 1422]
+
+        ax = plt.subplot(232)
+        plt.title('(B) Female CPT', fontsize=18)
+        plt.ylim([0, 12000])
+        bars = plt.bar(x, height, color='red')
+        ax.bar_label(bars)
+        ########## Females #########
+
+        ########## males #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [2403, 6918, 509, 2852, 2118]
+
+        ax = plt.subplot(233)
+        plt.title('(C) Male CPT', fontsize=18)
+        plt.ylim([0, 12000])
+        bars = plt.bar(x, height, color='red')
+        ax.bar_label(bars)
+        ########## males #########
+
+        ########## 0, 40 #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [460, 1188, 131, 488, 1018]
+
+        ax = plt.subplot(234)
+        plt.title('(E) [0, 40) Years CPT', fontsize=18)
+        plt.ylim([0, 12000])
+        bars = plt.bar(x, height)
+        ax.bar_label(bars)
+        ########## 0, 40 #########
+
+        ########## [40, 70] #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [1955, 6288, 394, 2647, 2036]
+
+        ax = plt.subplot(235)
+        plt.title('(E) [40, 70) Years CPT', fontsize=18)
+        plt.ylim([0, 12000])
+        bars = plt.bar(x, height)
+        ax.bar_label(bars)
+        ########## [40, 70] #########
+
+        ########## [70 100] #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [1529, 3962, 291, 1387, 486]
+
+        ax = plt.subplot(236)
+        plt.title('(F) [70, 100) Years CPT', fontsize=18)
+        plt.ylim([0, 12000])
+        bars = plt.bar(x, height)
+        ax.bar_label(bars)
+        ########## [70 100] #########
+
+
+        plt.show()
+
+
+
+
+    def individual_label_sample_sizes_UKA(self):
+
+        sns.set(font_scale=1.2)
+        plt.suptitle('Total sample sizes for individual positive labels for different subsets of UKA test set', fontsize=20)
+        plt.rcParams['font.size'] = 14
+
+        ########## Full Set #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [18616, 5049, 5844, 5575, 15273]
+
+        ax = plt.subplot(231)
+        plt.title('(A) Full Set UKA', fontsize=18)
+        plt.ylim([0, 19000])
+        bars = plt.bar(x, height, color='green')
+        ax.bar_label(bars)
+        ########## Full Set #########
+
+        ########## Females #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [5748, 1828, 1846, 1931, 6408]
+
+        ax = plt.subplot(232)
+        plt.title('(B) Female UKA', fontsize=18)
+        plt.ylim([0, 19000])
+        bars = plt.bar(x, height, color='red')
+        ax.bar_label(bars)
+        ########## Females #########
+
+        ########## males #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [12868, 3221, 3998, 3644, 8865]
+
+        ax = plt.subplot(233)
+        plt.title('(C) Male UKA', fontsize=18)
+        plt.ylim([0, 19000])
+        bars = plt.bar(x, height, color='red')
+        ax.bar_label(bars)
+        ########## males #########
+
+        ########## 0, 40 #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [637, 228, 387, 332, 1151]
+
+        ax = plt.subplot(234)
+        plt.title('(E) [0, 40) Years UKA', fontsize=18)
+        plt.ylim([0, 19000])
+        bars = plt.bar(x, height)
+        ax.bar_label(bars)
+        ########## 0, 40 #########
+
+        ########## [40, 70] #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [8262, 2269, 3041, 2702, 7864]
+
+        ax = plt.subplot(235)
+        plt.title('(E) [40, 70) Years UKA', fontsize=18)
+        plt.ylim([0, 19000])
+        bars = plt.bar(x, height)
+        ax.bar_label(bars)
+        ########## [40, 70] #########
+
+        ########## [70 100] #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [9713, 2552, 2415, 2539, 6248]
+
+        ax = plt.subplot(236)
+        plt.title('(F) [70, 100) Years UKA', fontsize=18)
+        plt.ylim([0, 19000])
+        bars = plt.bar(x, height)
+        ax.bar_label(bars)
+        ########## [70 100] #########
+
+
+        plt.show()
+
+
+
+
+    def individual_label_sample_sizes_PCH(self):
+
+        sns.set(font_scale=1.2)
+        plt.suptitle('Total sample sizes for individual positive labels for different subsets of PCH test set', fontsize=20)
+        plt.rcParams['font.size'] = 14
+
+        ########## Full Set #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [1954, 1373, 992, 1240, 7216]
+
+        ax = plt.subplot(231)
+        plt.title('(A) Full Set PCH', fontsize=18)
+        plt.ylim([0, 7500])
+        bars = plt.bar(x, height, color='green')
+        ax.bar_label(bars)
+        ########## Full Set #########
+
+        ########## Females #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [1050, 504, 426, 529, 4083]
+
+        ax = plt.subplot(232)
+        plt.title('(B) Female PCH', fontsize=18)
+        plt.ylim([0, 7500])
+        bars = plt.bar(x, height, color='red')
+        ax.bar_label(bars)
+        ########## Females #########
+
+        ########## males #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [904, 869, 566, 711, 3133]
+
+        ax = plt.subplot(233)
+        plt.title('(C) Male PCH', fontsize=18)
+        plt.ylim([0, 7500])
+        bars = plt.bar(x, height, color='red')
+        ax.bar_label(bars)
+        ########## males #########
+
+        ########## 0, 40 #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [29, 100, 292, 87, 2171]
+
+        ax = plt.subplot(234)
+        plt.title('(E) [0, 40) Years PCH', fontsize=18)
+        plt.ylim([0, 7500])
+        bars = plt.bar(x, height)
+        ax.bar_label(bars)
+        ########## 0, 40 #########
+
+        ########## [40, 70] #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [560, 491, 331, 546, 4081]
+
+        ax = plt.subplot(235)
+        plt.title('(E) [40, 70) Years PCH', fontsize=18)
+        plt.ylim([0, 7500])
+        bars = plt.bar(x, height)
+        ax.bar_label(bars)
+        ########## [40, 70] #########
+
+        ########## [70 100] #########
+        x = ['CM', 'PE', 'PN', 'AT', 'HE']
+        height = [1354, 780, 359, 601, 942]
+
+        ax = plt.subplot(236)
+        plt.title('(F) [70, 100) Years PCH', fontsize=18)
+        plt.ylim([0, 7500])
+        bars = plt.bar(x, height)
+        ax.bar_label(bars)
+        ########## [70 100] #########
+
+
+        plt.show()
+
+
+
 
 
 if __name__ == '__main__':
@@ -1023,5 +1495,10 @@ if __name__ == '__main__':
     # supplement.all_figs_epsaboveone()
     # supplement.all_figs_epsten()
     # supplement.all_figs_nondp()
-    supplement.sample_sizes()
+    # supplement.sample_sizes()
+    # supplement.individual_label_sample_sizes_VDR()
+    # supplement.individual_label_sample_sizes_C14()
+    # supplement.individual_label_sample_sizes_CPT()
+    supplement.individual_label_sample_sizes_UKA()
+    # supplement.individual_label_sample_sizes_PCH()
 
