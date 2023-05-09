@@ -31,113 +31,113 @@ class main_manuscript():
         # chexpert,
         # UKA,
         # padchest
-        sns.set(font_scale=1)
+        sns.set(font_scale=2)
         plt.suptitle('AUC values for ε < 1', fontsize=20)
 
         ########## average #########
-        auc_list = np.array([[0.94,	0.69,	0.72,	0.72,	0.80],
-                             [0.88,	0.78,	0.76,	0.69,	0.83],
-                             [0.85,	0.75,	0.82,	0.68,	0.83],
-                             [0.86,	0.67,	0.72,	0.88,	0.81],
-                             [0.89,	0.74,	0.75,	0.71,	0.89]])
+        auc_list = np.array([[0.89,	0.69,	0.72,	0.72,	0.80],
+                             [0.88,	0.74,	0.76,	0.69,	0.83],
+                             [0.85,	0.75,	0.79,	0.68,	0.83],
+                             [0.86,	0.67,	0.72,	0.84,	0.81],
+                             [0.89,	0.74,	0.75,	0.71,	0.84]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(231)
-        plt.title('(A) Average', fontsize=12)
+        plt.title('(A) Average', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         plt.ylabel('Training on', fontsize=14)
         ########## average #########
 
         ########## cardiomegaly #########
-        auc_list = np.array([[0.96, 0.71, 0.73, 0.72, 0.80],
-                             [0.90, 0.88, 0.77, 0.74, 0.86],
-                             [0.90, 0.84, 0.87, 0.75, 0.88],
-                             [0.94, 0.74, 0.78, 0.85, 0.84],
-                             [0.93, 0.80, 0.77, 0.75, 0.93]])
+        auc_list = np.array([[0.93, 0.71, 0.73, 0.72, 0.80],
+                             [0.90, 0.80, 0.77, 0.74, 0.86],
+                             [0.90, 0.84, 0.84, 0.75, 0.88],
+                             [0.94, 0.74, 0.78, 0.80, 0.84],
+                             [0.93, 0.80, 0.77, 0.75, 0.90]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(232)
-        plt.title('(B) Cardiomegaly', fontsize=12)
+        plt.title('(B) Cardiomegaly', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         ########## cardiomegaly #########
 
         ########## effusion #########
-        auc_list = np.array([[0.98,	0.77,	0.84,	0.76,	0.93],
-                             [0.95,	0.83,	0.86,	0.73,	0.95],
+        auc_list = np.array([[0.94,	0.77,	0.84,	0.76,	0.93],
+                             [0.95,	0.81,	0.86,	0.73,	0.95],
                              [0.96,	0.81,	0.88,	0.79,	0.95],
-                             [0.90,	0.74,	0.83,	0.91,	0.93],
-                             [0.94,	0.80,	0.85,	0.79,	0.96]])
+                             [0.90,	0.74,	0.83,	0.88,	0.93],
+                             [0.94,	0.80,	0.85,	0.79,	0.95]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(233)
-        plt.title('(C) Pleural Effusion', fontsize=12)
+        plt.title('(C) Pleural Effusion', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         ########## effusion #########
 
         ########## pneumonia #########
-        auc_list = np.array([[0.92,	0.66,	0.59,	0.77,	0.76],
-                             [0.88,	0.71,	0.66,	0.78,	0.78],
-                             [0.79,	0.68,	0.76,	0.79,	0.76],
-                             [0.84,	0.68,	0.63,	0.92,	0.79],
-                             [0.88,	0.67,	0.63,	0.77,	0.86]])
+        auc_list = np.array([[0.88,	0.66,	0.59,	0.77,	0.76],
+                             [0.88,	0.67,	0.66,	0.78,	0.78],
+                             [0.79,	0.68,	0.72,	0.79,	0.76],
+                             [0.84,	0.68,	0.63,	0.88,	0.79],
+                             [0.88,	0.67,	0.63,	0.77,	0.77]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(234)
-        plt.title('(D) Pneumonia', fontsize=12)
+        plt.title('(D) Pneumonia', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         plt.ylabel('Training on', fontsize=14)
         plt.xlabel('Test on', fontsize=14)
         ########## pneumonia #########
 
         ########## atelectasis #########
-        auc_list = np.array([[0.90,	0.64,	0.60,	0.62,	0.74],
-                             [0.84,	0.76,	0.65,	0.49,	0.78],
-                             [0.74,	0.71,	0.70,	0.36,	0.75],
-                             [0.82,	0.54,	0.56,	0.86,	0.72],
-                             [0.82,	0.72,	0.65,	0.55,	0.86]])
+        auc_list = np.array([[0.85,	0.64,	0.60,	0.62,	0.74],
+                             [0.84,	0.73,	0.65,	0.49,	0.78],
+                             [0.74,	0.71,	0.66,	0.36,	0.75],
+                             [0.82,	0.54,	0.56,	0.82,	0.72],
+                             [0.82,	0.72,	0.65,	0.55,	0.78]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(235)
-        plt.title('(E) Atelectasis', fontsize=12)
+        plt.title('(E) Atelectasis', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         plt.xlabel('Test on', fontsize=14)
         ########## atelectasis #########
 
         ########## Healthy #########
-        auc_list = np.array([[0.91,	0.69,	0.84,	0.74,	0.78],
-                             [0.83,	0.72,	0.85,	0.72,	0.78],
-                             [0.85,	0.71,	0.88,	0.72,	0.80],
-                             [0.79,	0.66,	0.82,	0.86,	0.76],
-                             [0.87,	0.70,	0.85,	0.70,	0.86]])
+        auc_list = np.array([[0.86,	0.69,	0.84,	0.74,	0.78],
+                             [0.83,	0.71,	0.85,	0.72,	0.78],
+                             [0.85,	0.71,	0.86,	0.72,	0.80],
+                             [0.79,	0.66,	0.82,	0.82,	0.76],
+                             [0.87,	0.70,	0.85,	0.70,	0.83]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(236)
-        plt.title('(F) Healthy', fontsize=12)
+        plt.title('(F) Healthy', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         plt.xlabel('Test on', fontsize=14)
         ########## Healthy #########
 
@@ -155,15 +155,15 @@ class main_manuscript():
         # chexpert,
         # UKA,
         # padchest
-        sns.set(font_scale=1.1)
+        sns.set(font_scale=2)
         plt.suptitle('Average AUC values for different ε values', fontsize=20)
 
         ########## 0 < ε < 1 #########
-        auc_list = np.array([[0.94,	0.69,	0.72,	0.72,	0.80],
-                             [0.88,	0.78,	0.76,	0.69,	0.83],
-                             [0.85,	0.75,	0.82,	0.68,	0.83],
-                             [0.86,	0.67,	0.72,	0.88,	0.81],
-                             [0.89,	0.74,	0.75,	0.71,	0.89]])
+        auc_list = np.array([[0.89,	0.69,	0.72,	0.72,	0.80],
+                             [0.88,	0.74,	0.76,	0.69,	0.83],
+                             [0.85,	0.75,	0.79,	0.68,	0.83],
+                             [0.86,	0.67,	0.72,	0.84,	0.81],
+                             [0.89,	0.74,	0.75,	0.71,	0.84]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
@@ -171,17 +171,17 @@ class main_manuscript():
         plt.subplot(221)
         plt.title('(A) 0 < ε < 1', fontsize=16)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
-        plt.ylabel('Training on', fontsize=14)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=16)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=16)
+        plt.ylabel('Training on', fontsize=16)
         ########## ε < 1 #########
 
         ########## 2 < ε < 4 #########
-        auc_list = np.array([[0.94,	0.69,	0.71,	0.73,	0.80],
-                             [0.87,	0.78,	0.76,	0.68,	0.83],
-                             [0.85,	0.75,	0.82,	0.68,	0.83],
-                             [0.86,	0.67,	0.72,	0.88,	0.81],
-                             [0.89,	0.74,	0.74,	0.71,	0.89]])
+        auc_list = np.array([[0.90,	0.69,	0.71,	0.73,	0.80],
+                             [0.87,	0.75,	0.76,	0.68,	0.83],
+                             [0.85,	0.75,	0.79,	0.68,	0.83],
+                             [0.86,	0.67,	0.72,	0.85,	0.81],
+                             [0.89,	0.74,	0.74,	0.71,	0.86]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
@@ -189,16 +189,16 @@ class main_manuscript():
         plt.subplot(222)
         plt.title('(B) 2 < ε < 3.5', fontsize=16)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
-        plt.ylabel('Training on', fontsize=14)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=16)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=16)
+        plt.ylabel('Training on', fontsize=16)
         ########## 2 < ε < 4 #########
 
         ########## 4 < ε < 10 #########
-        auc_list = np.array([[0.94,	0.69,	0.72,	0.70,	0.80],
-                             [0.88,	0.78,	0.76,	0.68,	0.83],
-                             [0.84,	0.75,	0.82,	0.68,	0.83],
-                             [0.85,	0.67,	0.72,	0.88,	0.80],
+        auc_list = np.array([[0.90,	0.69,	0.72,	0.70,	0.80],
+                             [0.88,	0.75,	0.76,	0.68,	0.83],
+                             [0.84,	0.75,	0.80,	0.68,	0.83],
+                             [0.85,	0.67,	0.72,	0.86,	0.80],
                              [0.89,	0.74,	0.74,	0.70,	0.89]])
 
         df = pd.DataFrame.from_records(auc_list)
@@ -207,10 +207,10 @@ class main_manuscript():
         plt.subplot(223)
         plt.title('(C) 3.5 < ε < 10', fontsize=16)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
-        plt.ylabel('Training on', fontsize=14)
-        plt.xlabel('Test on', fontsize=14)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=16)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=16)
+        plt.ylabel('Training on', fontsize=16)
+        plt.xlabel('Test on', fontsize=16)
         ########## 4 < ε < 10 #########
 
         ########## ε = ∞ #########
@@ -226,10 +226,10 @@ class main_manuscript():
         plt.subplot(224)
         plt.title('(D) ε = ∞', fontsize=16)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
-        plt.ylabel('Training on', fontsize=14)
-        plt.xlabel('Test on', fontsize=14)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=16)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=16)
+        plt.ylabel('Training on', fontsize=16)
+        plt.xlabel('Test on', fontsize=16)
         ########## ε = ∞ #########
 
         plt.show()
@@ -246,15 +246,15 @@ class main_manuscript():
         # chexpert,
         # UKA,
         # padchest
-        sns.set(font_scale=1.1)
+        sns.set(font_scale=2)
         plt.suptitle('Average AUC values for different genders using DP-DT (ε < 1) and non-DP-DT (ε = ∞)', fontsize=20)
 
         ########## Female (ε < 1) #########
-        auc_list = np.array([[0.93,	0.68,	0.72,	0.69,	0.81],
-                             [0.81,	0.77,	0.78,	0.69,	0.84],
-                             [0.80,	0.75,	0.82,	0.71,	0.83],
-                             [0.84,	0.68,	0.73,	0.88,	0.79],
-                             [0.88,	0.75,	0.77,	0.71,	0.89]])
+        auc_list = np.array([[0.87,	0.68,	0.72,	0.69,	0.81],
+                             [0.81,	0.73,	0.78,	0.69,	0.84],
+                             [0.80,	0.75,	0.79,	0.71,	0.83],
+                             [0.84,	0.68,	0.73,	0.84,	0.79],
+                             [0.88,	0.75,	0.77,	0.71,	0.84]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
@@ -262,17 +262,17 @@ class main_manuscript():
         plt.subplot(221)
         plt.title('(A) Female (ε < 1)', fontsize=16)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
-        plt.ylabel('Training on', fontsize=14)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=16)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=16)
+        plt.ylabel('Training on', fontsize=16)
         ########## Female (ε < 1) #########
 
         ########## Male (ε < 1) #########
-        auc_list = np.array([[0.92,	0.69,	0.72,	0.71,	0.81],
-                             [0.80,	0.79,	0.77,	0.68,	0.84],
-                             [0.84,	0.77,	0.82,	0.70,	0.84],
-                             [0.84,	0.69,	0.72,	0.88,	0.81],
-                             [0.87,	0.77,	0.76,	0.69,	0.89]])
+        auc_list = np.array([[0.87,	0.69,	0.72,	0.71,	0.81],
+                             [0.80,	0.75,	0.77,	0.68,	0.84],
+                             [0.84,	0.77,	0.79,	0.70,	0.84],
+                             [0.84,	0.69,	0.72,	0.86,	0.81],
+                             [0.87,	0.77,	0.76,	0.69,	0.84]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
@@ -280,9 +280,9 @@ class main_manuscript():
         plt.subplot(222)
         plt.title('(B) Male (ε < 1)', fontsize=16)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Blues', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
-        plt.ylabel('Training on', fontsize=14)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=16)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=16)
+        plt.ylabel('Training on', fontsize=16)
         ########## Male (ε < 1) #########
 
         ########## Female (ε = ∞) #########
@@ -298,10 +298,10 @@ class main_manuscript():
         plt.subplot(223)
         plt.title('(C) Female (ε = ∞)', fontsize=16)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
-        plt.ylabel('Training on', fontsize=14)
-        plt.xlabel('Test on', fontsize=14)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=16)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=16)
+        plt.ylabel('Training on', fontsize=16)
+        plt.xlabel('Test on', fontsize=16)
         ########## Female (ε = ∞) #########
 
         ##########  male (ε = ∞) #########
@@ -317,10 +317,10 @@ class main_manuscript():
         plt.subplot(224)
         plt.title('(D) Male (ε = ∞)', fontsize=16)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Blues', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
-        plt.ylabel('Training on', fontsize=14)
-        plt.xlabel('Test on', fontsize=14)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=16)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=16)
+        plt.ylabel('Training on', fontsize=16)
+        plt.xlabel('Test on', fontsize=16)
         ########## male (ε = ∞) #########
 
         plt.show()
@@ -337,59 +337,59 @@ class main_manuscript():
         # chexpert,
         # UKA,
         # padchest
-        sns.set(font_scale=1)
+        sns.set(font_scale=2)
         plt.suptitle('Average AUC values for different age groups using DP-DT (ε < 1) and non-DP-DT (ε = ∞)', fontsize=20)
 
         ########## [0, 40) years (ε < 1) #########
-        auc_list = np.array([[0.94,	0.71,	0.75,	0.73,	0.81],
-                            [0.89,	0.79,	0.78,	0.72,	0.81],
-                            [0.85,	0.76,	0.84,	0.71,	0.83],
-                            [0.87,	0.68,	0.75,	0.90,	0.81],
-                            [0.89,	0.75,	0.77,	0.75,	0.87]])
+        auc_list = np.array([[0.90,	0.71,	0.75,	0.73,	0.81],
+                            [0.89,	0.75,	0.78,	0.72,	0.81],
+                            [0.85,	0.76,	0.82,	0.71,	0.83],
+                            [0.87,	0.68,	0.75,	0.84,	0.81],
+                            [0.89,	0.75,	0.77,	0.75,	0.83]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(231)
-        plt.title('(A) [0, 40) years (ε < 1)', fontsize=12)
+        plt.title('(A) [0, 40) years (ε < 1)', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         plt.ylabel('Training on', fontsize=14)
         ########## [0, 40) years (ε < 1) #########
 
         ########## [40, 70) years (ε < 1) #########
-        auc_list = np.array([[0.91,	0.69,	0.72,	0.73,	0.80],
-                            [0.84,	0.77,	0.75,	0.70,	0.82],
-                            [0.80,	0.75,	0.81,	0.69,	0.83],
-                            [0.84,	0.67,	0.72,	0.89,	0.80],
-                            [0.83,	0.74,	0.75,	0.72,	0.89]])
+        auc_list = np.array([[0.84,	0.69,	0.72,	0.73,	0.80],
+                            [0.84,	0.74,	0.75,	0.70,	0.82],
+                            [0.80,	0.75,	0.79,	0.69,	0.83],
+                            [0.84,	0.67,	0.72,	0.85,	0.80],
+                            [0.83,	0.74,	0.75,	0.72,	0.84]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(232)
-        plt.title('(B) [40, 70) years (ε < 1)', fontsize=12)
+        plt.title('(B) [40, 70) years (ε < 1)', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Blues', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         ########## [40, 70) years (ε < 1) #########
 
         ########## [70, 100) years (ε < 1) #########
-        auc_list = np.array([[0.86,	0.66,	0.69,	0.70,	0.76],
-                            [0.78,	0.74,	0.72,	0.68,	0.80],
-                            [0.79,	0.73,	0.79,	0.67,	0.79],
-                            [0.77,	0.63,	0.69,	0.87,	0.76],
-                            [0.78,	0.71,	0.72,	0.69,	0.85]])
+        auc_list = np.array([[0.81,	0.66,	0.69,	0.70,	0.76],
+                            [0.78,	0.71,	0.72,	0.68,	0.80],
+                            [0.79,	0.73,	0.77,	0.67,	0.79],
+                            [0.77,	0.63,	0.69,	0.82,	0.76],
+                            [0.78,	0.71,	0.72,	0.69,	0.81]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(233)
-        plt.title('(C) [70, 100) years (ε < 1)', fontsize=12)
+        plt.title('(C) [70, 100) years (ε < 1)', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Reds', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         ########## [70, 100) years (ε < 1) #########
 
 
@@ -405,10 +405,10 @@ class main_manuscript():
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(234)
-        plt.title('(D) [0, 40) years (ε = ∞)', fontsize=12)
+        plt.title('(D) [0, 40) years (ε = ∞)', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         plt.ylabel('Training on', fontsize=14)
         plt.xlabel('Test on', fontsize=14)
         ########## [0, 40) years (ε = ∞) #########
@@ -424,10 +424,10 @@ class main_manuscript():
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(235)
-        plt.title('(E) [40, 70) years (ε = ∞)', fontsize=12)
+        plt.title('(E) [40, 70) years (ε = ∞)', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Blues', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         plt.xlabel('Test on', fontsize=14)
         ########## [40, 70) years (ε = ∞) #########
 
@@ -442,10 +442,10 @@ class main_manuscript():
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(236)
-        plt.title('(F) [70, 100) years (ε = ∞)', fontsize=12)
+        plt.title('(F) [70, 100) years (ε = ∞)', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Reds', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         plt.xlabel('Test on', fontsize=14)
         ########## [70, 100) years (ε = ∞) #########
 
@@ -473,7 +473,7 @@ class main_manuscript():
         plt.title('(A) VDR', fontsize=16)
         plt.plot(x, y, linewidth=2, markersize=12)
         # plt.xlabel('ε', fontsize=16)
-        plt.ylabel('AUROC', fontsize=16)
+        plt.ylabel('AUC', fontsize=16)
         plt.ylim([0.8780, 0.909])
         plt.xlim([0, 10])
         ########## VinDr #########
@@ -485,7 +485,7 @@ class main_manuscript():
         plt.title('(B) C14', fontsize=16)
         plt.plot(x, y, linewidth=2, markersize=12)
         # plt.xlabel('ε', fontsize=16)
-        # plt.ylabel('AUROC', fontsize=16)
+        # plt.ylabel('AUC', fontsize=16)
         plt.ylim([0.724, 0.756])
         plt.xlim([0, 10])
         ########## cxr14 #########
@@ -500,7 +500,7 @@ class main_manuscript():
         plt.ylim([0.777, 0.797])
         # plt.xlabel('ε', fontsize=16)
         plt.xlim([0, 10])
-        # plt.ylabel('AUROC', fontsize=16)
+        # plt.ylabel('AUC', fontsize=16)
         ########## chexpert #########
 
         ########## UKA #########
@@ -511,7 +511,7 @@ class main_manuscript():
         plt.plot(x, y, linewidth=2, markersize=12)
         plt.ylim([0.80, 0.86])
         plt.xlabel('ε', fontsize=16)
-        plt.ylabel('AUROC', fontsize=16)
+        plt.ylabel('AUC', fontsize=16)
         plt.xlim([0, 10])
         ########## UKA #########
 
@@ -523,7 +523,7 @@ class main_manuscript():
         plt.title('(E) PCH', fontsize=16)
         plt.plot(x, y, linewidth=2, markersize=12)
         plt.xlabel('ε', fontsize=16)
-        # plt.ylabel('AUROC', fontsize=16)
+        # plt.ylabel('AUC', fontsize=16)
         plt.xlim([0, 10])
         ########## padchest #########
 
@@ -546,7 +546,7 @@ class main_manuscript():
         plt.plot(x4, y4, linewidth=2, label="UKA", color='orange', marker='*')
         plt.plot(x5, y5, linewidth=2, label="PCH", color='brown', marker='p')
         plt.xlabel('ε', fontsize=16)
-        # plt.ylabel('AUROC', fontsize=16)
+        # plt.ylabel('AUC', fontsize=16)
         plt.legend()
         plt.xlim([0, 10])
         # plt.ylim([0.72, 0.91])
@@ -570,113 +570,113 @@ class supplements():
         # chexpert,
         # UKA,
         # padchest
-        sns.set(font_scale=1.1)
+        sns.set(font_scale=2)
         plt.suptitle('AUC values for 2 < ε < 3.5', fontsize=20)
 
         ########## average #########
-        auc_list = np.array([[0.94,	0.69,	0.71,	0.73,	0.80],
-                            [0.87,	0.78,	0.76,	0.68,	0.83],
-                            [0.85,	0.75,	0.82,	0.68,	0.83],
-                            [0.86,	0.67,	0.72,	0.88,	0.81],
-                            [0.89,	0.74,	0.74,	0.71,	0.89]])
+        auc_list = np.array([[0.90,	0.69,	0.71,	0.73,	0.80],
+                            [0.87,	0.75,	0.76,	0.68,	0.83],
+                            [0.85,	0.75,	0.79,	0.68,	0.83],
+                            [0.86,	0.67,	0.72,	0.85,	0.81],
+                            [0.89,	0.74,	0.74,	0.71,	0.86]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(231)
-        plt.title('(A) Average', fontsize=12)
+        plt.title('(A) Average', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         plt.ylabel('Training on', fontsize=14)
         ########## average #########
 
         ########## cardiomegaly #########
-        auc_list = np.array([[0.96,	0.70,	0.72,	0.73,	0.80],
-                            [0.89,	0.88,	0.78,	0.74,	0.88],
-                            [0.91,	0.85,	0.87,	0.74,	0.88],
-                            [0.94,	0.75,	0.79,	0.85,	0.84],
-                            [0.94,	0.82,	0.75,	0.74,	0.93]])
+        auc_list = np.array([[0.94,	0.70,	0.72,	0.73,	0.80],
+                            [0.89,	0.83,	0.78,	0.74,	0.88],
+                            [0.91,	0.85,	0.84,	0.74,	0.88],
+                            [0.94,	0.75,	0.79,	0.81,	0.84],
+                            [0.94,	0.82,	0.75,	0.74,	0.91]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(232)
-        plt.title('(B) Cardiomegaly', fontsize=12)
+        plt.title('(B) Cardiomegaly', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         ########## cardiomegaly #########
 
         ########## effusion #########
-        auc_list = np.array([[0.98,	0.76,	0.83,	0.77,	0.93],
-                            [0.95,	0.83,	0.86,	0.74,	0.94],
+        auc_list = np.array([[0.95,	0.76,	0.83,	0.77,	0.93],
+                            [0.95,	0.81,	0.86,	0.74,	0.94],
                             [0.96,	0.81,	0.88,	0.80,	0.95],
-                            [0.91,	0.74,	0.82,	0.91,	0.93],
-                            [0.94,	0.80,	0.85,	0.79,	0.96]])
+                            [0.91,	0.74,	0.82,	0.89,	0.93],
+                            [0.94,	0.80,	0.85,	0.79,	0.95]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(233)
-        plt.title('(C) Pleural Effusion', fontsize=12)
+        plt.title('(C) Pleural Effusion', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         ########## effusion #########
 
         ########## pneumonia #########
-        auc_list = np.array([[0.92,	0.65,	0.57,	0.78,	0.75],
-                            [0.86,	0.71,	0.65,	0.76,	0.76],
-                            [0.79,	0.69,	0.76,	0.79,	0.76],
-                            [0.85,	0.68,	0.63,	0.92,	0.79],
-                            [0.87,	0.66,	0.63,	0.76,	0.86]])
+        auc_list = np.array([[0.89,	0.65,	0.57,	0.78,	0.75],
+                            [0.86,	0.66,	0.65,	0.76,	0.76],
+                            [0.79,	0.69,	0.73,	0.79,	0.76],
+                            [0.85,	0.68,	0.63,	0.89,	0.79],
+                            [0.87,	0.66,	0.63,	0.76,	0.79]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(234)
-        plt.title('(D) Pneumonia', fontsize=12)
+        plt.title('(D) Pneumonia', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         plt.ylabel('Training on', fontsize=14)
         plt.xlabel('Test on', fontsize=14)
         ########## pneumonia #########
 
         ########## atelectasis #########
-        auc_list = np.array([[0.90,	0.64,	0.60,	0.64,	0.73],
-                            [0.84,	0.76,	0.65,	0.47,	0.78],
-                            [0.72,	0.71,	0.70,	0.32,	0.75],
-                            [0.81,	0.54,	0.56,	0.86,	0.71],
-                            [0.84,	0.72,	0.64,	0.55,	0.86]])
+        auc_list = np.array([[0.86,	0.64,	0.60,	0.64,	0.73],
+                            [0.84,	0.74,	0.65,	0.47,	0.78],
+                            [0.72,	0.71,	0.66,	0.32,	0.75],
+                            [0.81,	0.54,	0.56,	0.83,	0.71],
+                            [0.84,	0.72,	0.64,	0.55,	0.79]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(235)
-        plt.title('(E) Atelectasis', fontsize=12)
+        plt.title('(E) Atelectasis', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         plt.xlabel('Test on', fontsize=14)
         ########## atelectasis #########
 
         ########## Healthy #########
-        auc_list = np.array([[0.91,	0.69,	0.84,	0.74,	0.79],
-                            [0.82,	0.72,	0.85,	0.71,	0.77],
-                            [0.86,	0.71,	0.88,	0.74,	0.80],
-                            [0.79,	0.66,	0.82,	0.86,	0.76],
-                            [0.86,	0.70,	0.85,	0.69,	0.86]])
+        auc_list = np.array([[0.87,	0.69,	0.84,	0.74,	0.79],
+                            [0.82,	0.71,	0.85,	0.71,	0.77],
+                            [0.86,	0.71,	0.86,	0.74,	0.80],
+                            [0.79,	0.66,	0.82,	0.83,	0.76],
+                            [0.86,	0.70,	0.85,	0.69,	0.84]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(236)
-        plt.title('(F) Healthy', fontsize=12)
+        plt.title('(F) Healthy', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         plt.xlabel('Test on', fontsize=14)
         ########## Healthy #########
 
@@ -694,113 +694,113 @@ class supplements():
         # chexpert,
         # UKA,
         # padchest
-        sns.set(font_scale=1.1)
+        sns.set(font_scale=2)
         plt.suptitle('AUC values for 3.5 < ε < 10', fontsize=20)
 
         ########## average #########
-        auc_list = np.array([[0.94,	0.69,	0.72,	0.70,	0.80],
-                            [0.88,	0.78,	0.76,	0.68,	0.83],
-                            [0.84,	0.75,	0.82,	0.68,	0.83],
-                            [0.85,	0.67,	0.72,	0.88,	0.80],
-                            [0.89,	0.74,	0.74,	0.70,	0.89]])
+        auc_list = np.array([[0.90,	0.69,	0.72,	0.70,	0.80],
+                            [0.88,	0.75,	0.76,	0.68,	0.83],
+                            [0.84,	0.75,	0.80,	0.68,	0.83],
+                            [0.85,	0.67,	0.72,	0.86,	0.80],
+                            [0.89,	0.74,	0.74,	0.70,	0.86]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(231)
-        plt.title('(A) Average', fontsize=12)
+        plt.title('(A) Average', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         plt.ylabel('Training on', fontsize=14)
         ########## average #########
 
         ########## cardiomegaly #########
-        auc_list = np.array([[0.96,	0.70,	0.72,	0.72,	0.81],
-                            [0.90,	0.88,	0.80,	0.74,	0.89],
-                            [0.89,	0.85,	0.87,	0.75,	0.88],
-                            [0.94,	0.77,	0.81,	0.85,	0.85],
-                            [0.94,	0.84,	0.77,	0.74,	0.93]])
+        auc_list = np.array([[0.94,	0.70,	0.72,	0.72,	0.81],
+                            [0.90,	0.84,	0.80,	0.74,	0.89],
+                            [0.89,	0.85,	0.85,	0.75,	0.88],
+                            [0.94,	0.77,	0.81,	0.82,	0.85],
+                            [0.94,	0.84,	0.77,	0.74,	0.91]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(232)
-        plt.title('(B) Cardiomegaly', fontsize=12)
+        plt.title('(B) Cardiomegaly', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         ########## cardiomegaly #########
 
         ########## effusion #########
-        auc_list = np.array([[0.98,	0.77,	0.84,	0.73,	0.93],
-                            [0.96,	0.83,	0.86,	0.74,	0.94],
+        auc_list = np.array([[0.95,	0.77,	0.84,	0.73,	0.93],
+                            [0.96,	0.82,	0.86,	0.74,	0.94],
                             [0.97,	0.81,	0.88,	0.80,	0.95],
-                            [0.90,	0.73,	0.82,	0.91,	0.92],
-                            [0.95,	0.80,	0.85,	0.78,	0.96]])
+                            [0.90,	0.73,	0.82,	0.90,	0.92],
+                            [0.95,	0.80,	0.85,	0.78,	0.95]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(233)
-        plt.title('(C) Pleural Effusion', fontsize=12)
+        plt.title('(C) Pleural Effusion', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         ########## effusion #########
 
         ########## pneumonia #########
-        auc_list = np.array([[0.92,	0.65,	0.57,	0.76,	0.75],
-                            [0.87,	0.71,	0.64,	0.75,	0.76],
-                            [0.75,	0.69,	0.76,	0.79,	0.76],
-                            [0.84,	0.68,	0.62,	0.92,	0.79],
-                            [0.86,	0.65,	0.62,	0.76,	0.86]])
+        auc_list = np.array([[0.90,	0.65,	0.57,	0.76,	0.75],
+                            [0.87,	0.65,	0.64,	0.75,	0.76],
+                            [0.75,	0.69,	0.73,	0.79,	0.76],
+                            [0.84,	0.68,	0.62,	0.90,	0.79],
+                            [0.86,	0.65,	0.62,	0.76,	0.81]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(234)
-        plt.title('(D) Pneumonia', fontsize=12)
+        plt.title('(D) Pneumonia', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         plt.ylabel('Training on', fontsize=14)
         plt.xlabel('Test on', fontsize=14)
         ########## pneumonia #########
 
         ########## atelectasis #########
-        auc_list = np.array([[0.90,	0.63,	0.60,	0.61,	0.73],
-                            [0.85,	0.76,	0.66,	0.45,	0.78],
-                            [0.71,	0.71,	0.70,	0.33,	0.74],
-                            [0.81,	0.53,	0.55,	0.86,	0.71],
-                            [0.86,	0.72,	0.63,	0.56,	0.86]])
+        auc_list = np.array([[0.86,	0.63,	0.60,	0.61,	0.73],
+                            [0.85,	0.74,	0.66,	0.45,	0.78],
+                            [0.71,	0.71,	0.66,	0.33,	0.74],
+                            [0.81,	0.53,	0.55,	0.84,	0.71],
+                            [0.86,	0.72,	0.63,	0.56,	0.79]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(235)
-        plt.title('(E) Atelectasis', fontsize=12)
+        plt.title('(E) Atelectasis', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         plt.xlabel('Test on', fontsize=14)
         ########## atelectasis #########
 
         ########## Healthy #########
-        auc_list = np.array([[0.91,	0.69,	0.84,	0.71,	0.79],
-                            [0.84,	0.72,	0.85,	0.70,	0.77],
-                            [0.86,	0.71,	0.88,	0.73,	0.80],
-                            [0.77,	0.65,	0.81,	0.86,	0.76],
-                            [0.87,	0.70,	0.85,	0.67,	0.86]])
+        auc_list = np.array([[0.88,	0.69,	0.84,	0.71,	0.79],
+                            [0.84,	0.71,	0.85,	0.70,	0.77],
+                            [0.86,	0.71,	0.86,	0.73,	0.80],
+                            [0.77,	0.65,	0.81,	0.84,	0.76],
+                            [0.87,	0.70,	0.85,	0.67,	0.84]])
 
         df = pd.DataFrame.from_records(auc_list)
         df.index = ['VDR', 'C14', 'CPT', 'UKA', 'PCH']
         df = df.rename(columns={0: 'VDR', 1: 'C14', 2: 'CPT', 3:'UKA', 4:'PCH'})
         plt.subplot(236)
-        plt.title('(F) Healthy', fontsize=12)
+        plt.title('(F) Healthy', fontsize=14)
         ax = sns.heatmap(data=df, vmin=0.5, vmax=1, annot=True, fmt=".2f", cmap='Greens', xticklabels=True, yticklabels=True)
-        ax.tick_params(axis='y', left=False, labelleft=True)
-        ax.tick_params(axis='x', bottom=False, labelbottom=True)
+        ax.tick_params(axis='y', left=False, labelleft=True, labelsize=14)
+        ax.tick_params(axis='x', bottom=False, labelbottom=True, labelsize=14)
         plt.xlabel('Test on', fontsize=14)
         ########## Healthy #########
 
@@ -1492,9 +1492,9 @@ if __name__ == '__main__':
     # manuscript.genderplots_belowone()
     # manuscript.age_plots_belowone()
     # manuscript.ondomain_DP_AUC_plot()
-    supplement.all_figs_epsaboveone()
+    # supplement.all_figs_epsaboveone()
     supplement.all_figs_epsten()
-    supplement.all_figs_nondp()
+    # supplement.all_figs_nondp()
     # supplement.sample_sizes()
     # supplement.individual_label_sample_sizes_VDR()
     # supplement.individual_label_sample_sizes_C14()
