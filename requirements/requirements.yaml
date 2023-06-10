@@ -1,0 +1,32 @@
+name: privacy_domainDP
+channels:
+  - defaults
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pytorch::pytorch=1.13
+  - pytorch::pytorch-cuda
+  - pytorch::torchvision
+  - omegaconf
+  - torchmetrics=0.10.3
+  - matplotlib 
+  - tqdm
+  - tensorboardx
+  - pandas
+  - scikit-learn
+  - scikit-image
+  - jupyter
+  - pip
+  - pip:
+    - opencv-python
+    - nibabel
+    - torchio
+    - pydicom
+    - pylibjpeg[libjpeg,openjpeg,rle]
+    - tensorboard
+    - timm
+    - mne
+    - opacus==1.3.0
+
