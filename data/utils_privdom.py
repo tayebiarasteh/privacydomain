@@ -31,7 +31,7 @@ class main_manuscript():
         # chexpert,
         # UKA,
         # padchest
-        sns.set(font_scale=2)
+        sns.set(font_scale=1)
         plt.suptitle('AUC values for ε < 1', fontsize=20)
 
         ########## average #########
@@ -1487,13 +1487,13 @@ class supplements():
 if __name__ == '__main__':
     manuscript = main_manuscript()
     supplement = supplements()
-    # manuscript.all_figs_epsbelowone()
+    manuscript.all_figs_epsbelowone()
     # manuscript.eps_differences()
     # manuscript.genderplots_belowone()
     # manuscript.age_plots_belowone()
     # manuscript.ondomain_DP_AUC_plot()
     # supplement.all_figs_epsaboveone()
-    supplement.all_figs_epsten()
+    # supplement.all_figs_epsten()
     # supplement.all_figs_nondp()
     # supplement.sample_sizes()
     # supplement.individual_label_sample_sizes_VDR()

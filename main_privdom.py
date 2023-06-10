@@ -836,7 +836,7 @@ def load_pretrained_resnet(num_classes=2, resnet_num=34, pretrained=False, mish=
             model.layer4[0].relu = activation
 
         if pretrained:
-            model.load_state_dict(torch.load('/home/soroosh/Documents/Repositories/privacydomain/pretraining_resnet9_512.pth'))
+            model.load_state_dict(torch.load('/pretraining_resnet9_512.pth'))
 
         for param in model.parameters():
             param.requires_grad = True
@@ -874,36 +874,3 @@ def load_pretrained_resnet(num_classes=2, resnet_num=34, pretrained=False, mish=
     return model
 
 
-
-
-
-if __name__ == '__main__':
-    # delete_experiment(experiment_name='federated_mimicpret_resnet9_vindr_cxr14_chexpert_padchest_lr2e4', global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml")
-    # main_train_central(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
-    #               valid=True, resume=False, augment=True, experiment_name='cxr14_central_resnet9_mimicpret_lr1e4', dataset_name='cxr14', pretrained=True, resnet_num=9, mish=True)
-    # main_train_DP(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
-    #               valid=True, augment=False, resume=False, experiment_name='vindr_DP_resnet9_mimicpret_lr4e4_eps4_lin150_5labels', dataset_name='vindr', pretrained=True, resnet_num=9, mish=True)
-    # main_test_DP_2D(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml", experiment_name='tttttt',
-    #                 resnet_num=9, mish=True, experiment_epoch_num=3, dataset_name='vindr')
-
-    # main_test_normal_bootstrap(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
-    #                        experiment_name='vindr_central_resnet9_mimicpret_lr4e2_5labels', experiment_epoch_num=14, dataset_name='cxr14', resnet_num=9, mish=True)
-
-
-    # main_test_DP_bootstrap(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
-    #                        experiment_name1='UKA_mimicpret_resnet9_lr1e4_eps10', experiment1_epoch_num=117, dataset_name='vindr', resnet_num=9, mish=True)
-
-    # main_test_DP_bootstrap(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
-    #                        experiment_name1='vindr_DP_resnet9_mimicpret_lr5e4_eps8_lin150_5labels', experiment1_epoch_num=18, dataset_name='vindr', resnet_num=9, mish=True)
-
-    main_test_DP_bootstrap(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
-                           experiment_name1='chexpert_mimicpret_resnet9_lr5e4_eps8_lin150_5labels', experiment1_epoch_num=20, dataset_name='chexpert', resnet_num=9, mish=True)
-
-    # main_test_DP_bootstrap(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
-    #                        experiment_name1='UKA_mimicpret_resnet9_lr1e4_eps10', experiment1_epoch_num=117, dataset_name='chexpert', resnet_num=9, mish=True)
-    #
-    # main_test_DP_bootstrap(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
-    #                        experiment_name1='UKA_mimicpret_resnet9_lr1e4_eps10', experiment1_epoch_num=117, dataset_name='padchest', resnet_num=9, mish=True)
-    # main_train_federated(global_config_path="/home/soroosh/Documents/Repositories/privacydomain/config/config.yaml",
-    #                      resume=False, augment=True, experiment_name='federated_mimicpret_resnet9_vindr_cxr14_chexpert_padchest_lr2e4', dataset_names_list=['vindr', 'cxr14', 'chexpert', 'padchest'],
-    #                      aggregationweight=[1, 1, 1, 1], pretrained=True, resnet_num=9, mish=True)

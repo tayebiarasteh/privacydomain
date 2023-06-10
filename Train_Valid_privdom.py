@@ -1013,8 +1013,3 @@ class Training:
             self.writer.add_scalar('valid_avg_F1', valid_F1.mean(), self.epoch)
             self.writer.add_scalar('Valid_avg_AUROC', valid_AUC.mean(), self.epoch)
             self.writer.add_scalar('Valid_avg_accuracy', valid_accuracy.mean(), self.epoch)
-            # self.writer.add_scalar('Valid_avg_specificity', valid_specificity.mean(), self.epoch)
-            # self.writer.add_scalar('Valid_avg_precision', valid_precision.mean(), self.epoch)
-            # self.writer.add_scalar('Valid_avg_recall_sensitivity', valid_sensitivity.mean(), self.epoch)
-
-

@@ -47,8 +47,7 @@ class UKA_data_loader(Dataset):
         self.augment = augment
         self.file_base_dir = self.params['file_path']
         self.file_base_dir = os.path.join(self.file_base_dir, 'UKA/chest_radiograph')
-        self.org_df = pd.read_csv(os.path.join(self.file_base_dir, "labels/original_novalid_UKA_master_list.csv"), sep=',') # 150,188 train / 39,021 test images
-        # self.org_df = pd.read_csv(os.path.join(self.file_base_dir, "labels/temporiginal_novalid_UKA_master_list.csv"), sep=',') # 150,188 train / 39,021 test images
+        self.org_df = pd.read_csv(os.path.join(self.file_base_dir, "labels/original_novalid_UKA_master_list.csv"), sep=',')
 
         if mode == 'train':
             self.subset_df = self.org_df[self.org_df['split'] == 'train']
@@ -241,19 +240,8 @@ class padchest_data_loader(Dataset):
         self.subset_df = self.subset_df.append(APhorizview)
 
 
-        # ageinterval = [0, 40]
-        # ageinterval = [40, 70]
-        # ageinterval = [70, 100]
-        # self.subset_df = self.subset_df[self.subset_df['age'] >= ageinterval[0]]
-        # self.subset_df = self.subset_df[self.subset_df['age'] < ageinterval[1]]
-
-        # self.subset_df = self.subset_df[self.subset_df['gender'] == 'F'] # female
-        # self.subset_df = self.subset_df[self.subset_df['gender'] == 'M'] # male
-
-
         self.file_path_list = list(self.subset_df['ImageID'])
 
-        # self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'no_finding']
         self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'atelectasis', 'no_finding']
 
 
@@ -335,7 +323,6 @@ class mimic_data_loader(Dataset):
         self.size256 = size256
         self.file_base_dir = self.params['file_path']
         self.file_base_dir = os.path.join(self.file_base_dir, "MIMIC")
-        # self.org_df = pd.read_csv(os.path.join(self.file_base_dir, "master_list.csv"), sep=',')
         self.org_df = pd.read_csv(os.path.join(self.file_base_dir, "nothree_master_list_20percenttest.csv"), sep=',')
 
         if mode == 'train':
@@ -350,7 +337,6 @@ class mimic_data_loader(Dataset):
         self.subset_df = PAview.append(APview)
         self.file_path_list = list(self.subset_df['jpg_rel_path'])
 
-        # self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'no_finding']
         self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'atelectasis', 'no_finding']
 
 
@@ -454,19 +440,8 @@ class chexpert_data_loader(Dataset):
         self.subset_df = self.subset_df[self.subset_df['view'] == 'Frontal']
 
 
-        # ageinterval = [0, 40]
-        # ageinterval = [40, 70]
-        # ageinterval = [70, 100]
-        # self.subset_df = self.subset_df[self.subset_df['age'] >= ageinterval[0]]
-        # self.subset_df = self.subset_df[self.subset_df['age'] < ageinterval[1]]
-
-        # self.subset_df = self.subset_df[self.subset_df['gender'] == 'Female'] # female
-        # self.subset_df = self.subset_df[self.subset_df['gender'] == 'Male'] # male
-
-
         self.file_path_list = list(self.subset_df['jpg_rel_path'])
 
-        # self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'no_finding']
         self.chosen_labels = ['cardiomegaly', 'pleural_effusion', 'pneumonia', 'atelectasis', 'no_finding']
 
 
@@ -573,20 +548,8 @@ class cxr14_data_loader(Dataset):
         elif mode == 'test':
             self.subset_df = self.org_df[self.org_df['split'] == 'test']
 
-
-        # ageinterval = [0, 40]
-        # ageinterval = [40, 70]
-        # ageinterval = [70, 100]
-        # self.subset_df = self.subset_df[self.subset_df['age'] >= ageinterval[0]]
-        # self.subset_df = self.subset_df[self.subset_df['age'] < ageinterval[1]]
-
-        # self.subset_df = self.subset_df[self.subset_df['gender'] == 'F'] # female
-        # self.subset_df = self.subset_df[self.subset_df['gender'] == 'M'] # male
-
-
         self.file_path_list = list(self.subset_df['img_rel_path'])
 
-        # self.chosen_labels = ['cardiomegaly', 'effusion', 'pneumonia', 'no_finding']
         self.chosen_labels = ['cardiomegaly', 'effusion', 'pneumonia', 'atelectasis', 'no_finding']
 
 
@@ -686,20 +649,8 @@ class vindr_data_loader(Dataset):
             self.subset_df = self.org_df[self.org_df['split'] == 'test']
             self.file_base_dir = os.path.join(self.file_base_dir, 'test')
 
-
-        # ageinterval = [0, 40]
-        # ageinterval = [40, 70]
-        # ageinterval = [70, 100]
-        # self.subset_df = self.subset_df[self.subset_df['age'] >= ageinterval[0]]
-        # self.subset_df = self.subset_df[self.subset_df['age'] < ageinterval[1]]
-
-        # self.subset_df = self.subset_df[self.subset_df['gender'] == 'F'] # female
-        # self.subset_df = self.subset_df[self.subset_df['gender'] == 'M'] # male
-
-
         self.file_path_list = list(self.subset_df['image_id'])
 
-        # self.chosen_labels = ['Cardiomegaly', 'Pleural effusion', 'Pneumonia', 'No finding']
         self.chosen_labels = ['Cardiomegaly', 'Pleural effusion', 'Pneumonia', 'Atelectasis', 'No finding']
 
 
