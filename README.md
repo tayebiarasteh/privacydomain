@@ -5,7 +5,8 @@
 Overview
 ------
 
-* This is the official repository of the paper **Preserving privacy in domain transfer of medical AI models comes at no performance costs: The integral role of differential privacy**.
+* This is the official repository of the paper [**Preserving privacy in domain transfer of medical AI models comes at no performance costs: The integral role of differential privacy**](https://arxiv.org/abs/2306.06503).
+* Pre-print version: [https://arxiv.org/abs/2306.06503](https://arxiv.org/abs/2306.06503)
 
 
 Introduction
@@ -46,12 +47,16 @@ Our source code for federated learning as well as training and evaluation of the
 ------
 ### In case you use this repository, please cite the original paper:
 
-S. Tayebi Arasteh et al. Preserving privacy in domain transfer of medical AI models comes at no performance costs: The integral role of differential privacy (2023).
+S. Tayebi Arasteh et al. *Preserving privacy in domain transfer of medical AI models comes at no performance costs: The integral role of differential privacy*. arxiv.2306.06503, https://doi.org/10.48550/arXiv.2306.06503, 2023.
 
 ### BibTex
 
     @article {dpdo2023,
-      author = {Tayebi Arasteh, Soroosh and others},
+      author = {Tayebi Arasteh, Soroosh and Lotfinia, Mahshad and Nolte, Teresa and Saehn, Marwin and Isfort, Peter and Kuhl, Christiane and Nebelung, Sven and Kaissis, Georgios and Truhn, Daniel},
       title = {Preserving privacy in domain transfer of medical AI models comes at no performance costs: The integral role of differential privacy},
       year = {2023},
+      doi = {10.48550/arXiv.2306.06503},
+      publisher = {arXiv},
+      URL = {https://arxiv.org/abs/2306.06503},
+      journal = {arXiv}
     }
