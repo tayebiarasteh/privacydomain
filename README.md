@@ -22,7 +22,7 @@ The software is developed in **Python 3.10**. For the deep learning, the **PyTor
 Main Python modules required for the software can be installed from ./requirements:
 
 ```
-$ conda env create -f requirements.yml
+$ conda env create -f requirements.yaml
 $ conda activate privacy_domainDP
 ```
 
