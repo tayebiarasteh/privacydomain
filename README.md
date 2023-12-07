@@ -1,12 +1,11 @@
-# Preserving privacy in domain transfer of medical AI models comes at no performance costs: The integral role of differential privacy
+# Securing Collaborative Medical AI Using Differential Privacy: Domain Transfer for Classification of Chest Radiographs
 
 
 
 Overview
 ------
 
-* This is the official repository of the paper [**Preserving privacy in domain transfer of medical AI models comes at no performance costs: The integral role of differential privacy**](https://arxiv.org/abs/2306.06503).
-* Pre-print version: [https://arxiv.org/abs/2306.06503](https://arxiv.org/abs/2306.06503)
+* This is the official repository of the paper [**Securing Collaborative Medical AI Using Differential Privacy: Domain Transfer for Classification of Chest Radiographs**](https://pubs.rsna.org/doi/10.1148/ryai.230212).
 
 
 Introduction
@@ -47,16 +46,17 @@ Our source code for federated learning as well as training and evaluation of the
 ------
 ### In case you use this repository, please cite the original paper:
 
-S. Tayebi Arasteh et al. *Preserving privacy in domain transfer of medical AI models comes at no performance costs: The integral role of differential privacy*. arxiv.2306.06503, https://doi.org/10.48550/arXiv.2306.06503, 2023.
+S. Tayebi Arasteh, M. Lotfinia, T. Nolte et al. *Securing Collaborative Medical AI Using Differential Privacy: Domain Transfer for Classification of Chest Radiographs*. Radiology: Artificial Intelligence, https://doi.org/10.1148/ryai.230212, 2024, 6(1), e230212. RSNA
 
 ### BibTex
 
-    @article {dpdo2023,
+    @article {dpdo2024,
       author = {Tayebi Arasteh, Soroosh and Lotfinia, Mahshad and Nolte, Teresa and Saehn, Marwin and Isfort, Peter and Kuhl, Christiane and Nebelung, Sven and Kaissis, Georgios and Truhn, Daniel},
-      title = {Preserving privacy in domain transfer of medical AI models comes at no performance costs: The integral role of differential privacy},
-      year = {2023},
-      doi = {10.48550/arXiv.2306.06503},
-      publisher = {arXiv},
-      URL = {https://arxiv.org/abs/2306.06503},
-      journal = {arXiv}
+      title = {Securing Collaborative Medical AI Using Differential Privacy: Domain Transfer for Classification of Chest Radiographs},
+      year = {2024},
+      pages = {e230212},
+      doi = {10.1148/ryai.230212},
+      publisher = {RSNA},
+      URL = {https://pubs.rsna.org/doi/10.1148/ryai.230212},
+      journal = {Radiology: Artificial Intelligence}
     }
