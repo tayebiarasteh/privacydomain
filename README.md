@@ -1,11 +1,11 @@
-# Securing Collaborative Medical AI Using Differential Privacy: Domain Transfer for Classification of Chest Radiographs
+# Securing Collaborative Medical AI by Using Differential Privacy: Domain Transfer for Classification of Chest Radiographs
 
 
 
 Overview
 ------
 
-* This is the official repository of the paper [**Securing Collaborative Medical AI Using Differential Privacy: Domain Transfer for Classification of Chest Radiographs**](https://pubs.rsna.org/doi/10.1148/ryai.230212).
+* This is the official repository of the paper [**Securing Collaborative Medical AI by Using Differential Privacy: Domain Transfer for Classification of Chest Radiographs**](https://pubs.rsna.org/doi/10.1148/ryai.230212).
 
 
 Introduction
@@ -46,13 +46,13 @@ Our source code for federated learning as well as training and evaluation of the
 ------
 ### In case you use this repository, please cite the original paper:
 
-S. Tayebi Arasteh, M. Lotfinia, T. Nolte et al. *Securing Collaborative Medical AI Using Differential Privacy: Domain Transfer for Classification of Chest Radiographs*. Radiology: Artificial Intelligence, https://doi.org/10.1148/ryai.230212, 2024, 6(1), e230212. RSNA
+S. Tayebi Arasteh, M. Lotfinia, T. Nolte et al. *Securing Collaborative Medical AI by Using Differential Privacy: Domain Transfer for Classification of Chest Radiographs*. Radiology: Artificial Intelligence, https://doi.org/10.1148/ryai.230212, 2024, 6(1), e230212. RSNA
 
 ### BibTex
 
     @article {dpdo2024,
       author = {Tayebi Arasteh, Soroosh and Lotfinia, Mahshad and Nolte, Teresa and Saehn, Marwin and Isfort, Peter and Kuhl, Christiane and Nebelung, Sven and Kaissis, Georgios and Truhn, Daniel},
-      title = {Securing Collaborative Medical AI Using Differential Privacy: Domain Transfer for Classification of Chest Radiographs},
+      title = {Securing Collaborative Medical AI by Using Differential Privacy: Domain Transfer for Classification of Chest Radiographs},
       year = {2024},
       pages = {e230212},
       doi = {10.1148/ryai.230212},
